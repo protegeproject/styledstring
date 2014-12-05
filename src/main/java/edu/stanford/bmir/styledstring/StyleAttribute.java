@@ -9,12 +9,7 @@ import java.text.AttributedCharacterIterator;
  * Bio-Medical Informatics Research Group
  * Date: 5th December 2014
  */
-public abstract class StyleAttribute {
-
-    public abstract String getCSSPropertyName();
-
-    public abstract String getCSSValue();
-    
+public abstract class StyleAttribute implements HasCssRepresentation {
 
     public abstract AttributedCharacterIterator.Attribute getAttributedStringAttribute();
 
