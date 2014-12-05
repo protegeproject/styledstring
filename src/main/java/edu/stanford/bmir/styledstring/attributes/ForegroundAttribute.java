@@ -1,4 +1,6 @@
-package edu.stanford.bmir.styledstring;
+package edu.stanford.bmir.styledstring.attributes;
+
+import edu.stanford.bmir.styledstring.CssConstants;
 
 import javax.swing.text.StyleConstants;
 import java.awt.*;

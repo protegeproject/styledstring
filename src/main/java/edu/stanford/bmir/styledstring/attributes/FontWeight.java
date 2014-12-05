@@ -1,4 +1,4 @@
-package edu.stanford.bmir.styledstring;
+package edu.stanford.bmir.styledstring.attributes;
 
 /**
  * Matthew Horridge
@@ -6,9 +6,9 @@ package edu.stanford.bmir.styledstring;
  * Bio-Medical Informatics Research Group
  * Date: 5th December 2014
  */
-public enum StrikeThrough {
+public enum FontWeight {
 
-    NORMAL,
+    REGULAR,
 
-    SINGLE
+    BOLD
 }

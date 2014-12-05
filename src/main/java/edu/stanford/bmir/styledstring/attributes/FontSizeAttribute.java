@@ -1,7 +1,8 @@
-package edu.stanford.bmir.styledstring;
+package edu.stanford.bmir.styledstring.attributes;
+
+import edu.stanford.bmir.styledstring.CssConstants;
 
 import javax.swing.text.StyleConstants;
-import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator;
 
@@ -11,52 +12,51 @@ import java.text.AttributedCharacterIterator;
  * Bio-Medical Informatics Research Group
  * Date: 5th December 2014
  */
-public class BackgroundAttribute extends StyleAttribute {
+public class FontSizeAttribute extends StyleAttribute {
 
+    private int fontSize;
 
-    private Color background;
-
-    private BackgroundAttribute(Color background) {
-        this.background = background;
+    private FontSizeAttribute(int fontSize) {
+        this.fontSize = fontSize;
     }
 
-    public static BackgroundAttribute get(Color color) {
-        return new BackgroundAttribute(color);
+    public static FontSizeAttribute get(int fontSize) {
+        return new FontSizeAttribute(fontSize);
     }
 
     @Override
     public String getCssPropertyName() {
-        return CssConstants.BACKGROUND.getName();
+        return CssConstants.FONT_SIZE.getName();
     }
 
     @Override
     public String getCssPropertyValue() {
-        return Integer.toHexString(background.getRGB() & 0x00ffffff);
+        return fontSize + "pt";
     }
 
     @Override
     public AttributedCharacterIterator.Attribute getAttributedStringAttribute() {
-        return TextAttribute.BACKGROUND;
+        return TextAttribute.SIZE;
     }
 
     @Override
     public Object getAttributedStringValue() {
-        return background;
+        return fontSize;
     }
 
     @Override
     public StyleConstants getStyledDocumentStyleAttribute() {
-        return (StyleConstants.ColorConstants) StyleConstants.Background;
+        return (StyleConstants.FontConstants) StyleConstants.FontSize;
     }
 
     @Override
     public Object getStyledDocumentStyleAttributeValue() {
-        return background;
+        return fontSize;
     }
 
     @Override
     public int hashCode() {
-        return BackgroundAttribute.class.getSimpleName().hashCode() + background.hashCode();
+        return FontSizeAttribute.class.getSimpleName().hashCode() + fontSize;
     }
 
     @Override
@@ -64,10 +64,10 @@ public class BackgroundAttribute extends StyleAttribute {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof BackgroundAttribute)) {
+        if (!(obj instanceof FontSizeAttribute)) {
             return false;
         }
-        BackgroundAttribute other = (BackgroundAttribute) obj;
-        return this.background.equals(other.background);
+        FontSizeAttribute other = (FontSizeAttribute) obj;
+        return this.fontSize == other.fontSize;
     }
 }

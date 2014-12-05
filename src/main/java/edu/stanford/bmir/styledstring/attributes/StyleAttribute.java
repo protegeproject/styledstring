@@ -1,4 +1,8 @@
-package edu.stanford.bmir.styledstring;
+package edu.stanford.bmir.styledstring.attributes;
+
+import edu.stanford.bmir.styledstring.HasAttributedStringRepresentation;
+import edu.stanford.bmir.styledstring.HasCssRepresentation;
+import edu.stanford.bmir.styledstring.HasStyledDocumentRepresentation;
 
 import javax.swing.text.StyleConstants;
 import java.text.AttributedCharacterIterator;

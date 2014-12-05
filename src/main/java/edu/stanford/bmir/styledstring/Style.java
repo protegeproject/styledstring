@@ -1,5 +1,7 @@
 package edu.stanford.bmir.styledstring;
 
+import edu.stanford.bmir.styledstring.attributes.*;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;

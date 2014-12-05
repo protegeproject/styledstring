@@ -1,5 +1,7 @@
 package edu.stanford.bmir.styledstring;
 
+import edu.stanford.bmir.styledstring.attributes.StyleAttribute;
+
 import javax.swing.text.*;
 import javax.swing.text.rtf.RTFEditorKit;
 import java.awt.*;
@@ -16,7 +18,7 @@ import java.util.List;
  * Bio-Medical Informatics Research Group
  * Date: 5th December 2014
  * <p>
- * A string marked up with various styles.  Each StyledString is immutable.
+ * A string marked up with various attributes.  Each StyledString is immutable.
  * </p>
  */
 public final class StyledString implements CharSequence, Comparable<StyledString> {
