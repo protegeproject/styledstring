@@ -45,12 +45,12 @@ public class BackgroundAttribute extends StyleAttribute {
     }
 
     @Override
-    public StyleConstants getTextAttribute() {
+    public StyleConstants getStyledDocumentStyleAttribute() {
         return (StyleConstants.ColorConstants) StyleConstants.Background;
     }
 
     @Override
-    public Object getTextValue() {
+    public Object getStyledDocumentStyleAttributeValue() {
         return background;
     }
 

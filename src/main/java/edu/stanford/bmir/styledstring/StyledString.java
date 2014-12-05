@@ -407,8 +407,8 @@ public final class StyledString implements CharSequence, Comparable<StyledString
                 int length = markup.getEnd() - markup.getStart();
                 MutableAttributeSet mas = new SimpleAttributeSet();
                 for (StyleAttribute styleAttribute : style.getStyleAttributes()) {
-                    StyleConstants styleConstants = styleAttribute.getTextAttribute();
-                    Object value = styleAttribute.getTextValue();
+                    StyleConstants styleConstants = styleAttribute.getStyledDocumentStyleAttribute();
+                    Object value = styleAttribute.getStyledDocumentStyleAttributeValue();
                     mas.addAttribute(styleConstants, value);
                 }
                 styledDocument.setCharacterAttributes(markup.getStart(), length, mas, false);

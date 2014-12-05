@@ -55,12 +55,12 @@ public class ForegroundAttribute extends StyleAttribute {
     }
 
     @Override
-    public StyleConstants getTextAttribute() {
+    public StyleConstants getStyledDocumentStyleAttribute() {
         return (StyleConstants.ColorConstants) StyleConstants.Foreground;
     }
 
     @Override
-    public Object getTextValue() {
+    public Object getStyledDocumentStyleAttributeValue() {
         return foreground;
     }
 

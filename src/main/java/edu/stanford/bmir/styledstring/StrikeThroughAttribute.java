@@ -50,12 +50,12 @@ public class StrikeThroughAttribute extends StyleAttribute {
     }
 
     @Override
-    public StyleConstants getTextAttribute() {
+    public StyleConstants getStyledDocumentStyleAttribute() {
         return (StyleConstants.CharacterConstants) StyleConstants.StrikeThrough;
     }
 
     @Override
-    public Object getTextValue() {
+    public Object getStyledDocumentStyleAttributeValue() {
         return strikeThrough == StrikeThrough.SINGLE;
     }
 }

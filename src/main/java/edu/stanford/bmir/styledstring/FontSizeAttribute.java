@@ -43,12 +43,12 @@ public class FontSizeAttribute extends StyleAttribute {
     }
 
     @Override
-    public StyleConstants getTextAttribute() {
+    public StyleConstants getStyledDocumentStyleAttribute() {
         return (StyleConstants.FontConstants) StyleConstants.FontSize;
     }
 
     @Override
-    public Object getTextValue() {
+    public Object getStyledDocumentStyleAttributeValue() {
         return fontSize;
     }
 

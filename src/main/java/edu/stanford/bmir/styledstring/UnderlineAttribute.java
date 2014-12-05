@@ -56,12 +56,12 @@ public class UnderlineAttribute extends StyleAttribute {
     }
 
     @Override
-    public StyleConstants getTextAttribute() {
+    public StyleConstants getStyledDocumentStyleAttribute() {
         return (StyleConstants.CharacterConstants) StyleConstants.Underline;
     }
 
     @Override
-    public Object getTextValue() {
+    public Object getStyledDocumentStyleAttributeValue() {
         return underline == Underline.SINGLE;
     }
 

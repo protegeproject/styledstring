@@ -50,12 +50,12 @@ public class FontWeightAttribute extends StyleAttribute {
     }
 
     @Override
-    public StyleConstants getTextAttribute() {
+    public StyleConstants getStyledDocumentStyleAttribute() {
         return (StyleConstants.FontConstants) StyleConstants.Bold;
     }
 
     @Override
-    public Object getTextValue() {
+    public Object getStyledDocumentStyleAttributeValue() {
         return fontWeight == FontWeight.BOLD;
     }
 
