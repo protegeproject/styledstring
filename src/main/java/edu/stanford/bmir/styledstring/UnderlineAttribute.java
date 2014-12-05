@@ -37,12 +37,12 @@ public class UnderlineAttribute extends StyleAttribute {
 
     @Override
     public String getCssPropertyName() {
-        return CSSConstants.TEXT_DECORATION.getName();
+        return CssConstants.TEXT_DECORATION.getName();
     }
 
     @Override
     public String getCssPropertyValue() {
-        return underline == Underline.SINGLE ? CSSConstants.UNDERLINE.getName() : CSSConstants.NONE.getName();
+        return underline == Underline.SINGLE ? CssConstants.UNDERLINE.getName() : CssConstants.NONE.getName();
     }
 
     @Override

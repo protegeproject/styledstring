@@ -24,7 +24,7 @@ public class FontSizeAttribute extends StyleAttribute {
 
     @Override
     public String getCssPropertyName() {
-        return CSSConstants.FONT_SIZE.getName();
+        return CssConstants.FONT_SIZE.getName();
     }
 
     @Override

@@ -23,12 +23,12 @@ public class FontWeightAttribute extends StyleAttribute {
 
     @Override
     public String getCssPropertyName() {
-        return CSSConstants.FONT_WEIGHT.getName();
+        return CssConstants.FONT_WEIGHT.getName();
     }
 
     @Override
     public String getCssPropertyValue() {
-        return fontWeight == FontWeight.BOLD ? CSSConstants.BOLD.getName() : CSSConstants.NORMAL.getName();
+        return fontWeight == FontWeight.BOLD ? CssConstants.BOLD.getName() : CssConstants.NORMAL.getName();
     }
 
     @Override

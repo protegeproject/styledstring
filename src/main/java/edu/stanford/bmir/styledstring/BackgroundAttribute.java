@@ -26,7 +26,7 @@ public class BackgroundAttribute extends StyleAttribute {
 
     @Override
     public String getCssPropertyName() {
-        return CSSConstants.BACKGROUND.getName();
+        return CssConstants.BACKGROUND.getName();
     }
 
     @Override

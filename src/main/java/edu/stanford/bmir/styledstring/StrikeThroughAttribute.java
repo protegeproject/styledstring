@@ -31,12 +31,12 @@ public class StrikeThroughAttribute extends StyleAttribute {
 
     @Override
     public String getCssPropertyName() {
-        return CSSConstants.TEXT_DECORATION.getName();
+        return CssConstants.TEXT_DECORATION.getName();
     }
 
     @Override
     public String getCssPropertyValue() {
-        return strikeThrough == StrikeThrough.SINGLE ? CSSConstants.LINE_THROUGH.getName() : CSSConstants.NONE.getName();
+        return strikeThrough == StrikeThrough.SINGLE ? CssConstants.LINE_THROUGH.getName() : CssConstants.NONE.getName();
     }
 
     @Override

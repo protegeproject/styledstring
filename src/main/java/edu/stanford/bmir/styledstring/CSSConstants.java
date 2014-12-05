@@ -6,7 +6,7 @@ package edu.stanford.bmir.styledstring;
  * Bio-Medical Informatics Research Group
  * Date: 5th December 2014
  */
-public enum CSSConstants {
+public enum CssConstants {
 
     TEXT_DECORATION("text-decoration"),
 
@@ -31,7 +31,7 @@ public enum CSSConstants {
 
     String name;
 
-    private CSSConstants(String name) {
+    private CssConstants(String name) {
         this.name = name;
     }
 

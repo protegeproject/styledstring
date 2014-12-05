@@ -27,7 +27,7 @@ public class ForegroundAttribute extends StyleAttribute {
 
     @Override
     public String getCssPropertyName() {
-        return CSSConstants.COLOR.getName();
+        return CssConstants.COLOR.getName();
     }
 
     @Override
