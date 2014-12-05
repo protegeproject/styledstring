@@ -40,7 +40,7 @@ public class BackgroundAttribute extends StyleAttribute {
     }
 
     @Override
-    public Object getAttributesStringValue() {
+    public Object getAttributedStringValue() {
         return background;
     }
 

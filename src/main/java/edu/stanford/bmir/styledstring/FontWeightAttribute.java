@@ -37,7 +37,7 @@ public class FontWeightAttribute extends StyleAttribute {
     }
 
     @Override
-    public Object getAttributesStringValue() {
+    public Object getAttributedStringValue() {
         return TextAttribute.WEIGHT_BOLD;
     }
 

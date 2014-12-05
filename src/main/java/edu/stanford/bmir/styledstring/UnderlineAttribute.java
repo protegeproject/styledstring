@@ -51,7 +51,7 @@ public class UnderlineAttribute extends StyleAttribute {
     }
 
     @Override
-    public Object getAttributesStringValue() {
+    public Object getAttributedStringValue() {
         return TextAttribute.UNDERLINE_LOW_ONE_PIXEL;
     }
 

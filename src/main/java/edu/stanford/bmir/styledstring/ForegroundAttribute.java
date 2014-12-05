@@ -42,7 +42,7 @@ public class ForegroundAttribute extends StyleAttribute {
     }
 
     @Override
-    public Object getAttributesStringValue() {
+    public Object getAttributedStringValue() {
         return foreground;
     }
 

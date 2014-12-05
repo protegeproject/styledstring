@@ -353,7 +353,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
             if (start < end && -1 < start && start < plainString.length() && 0 < end && end <= plainString.length()) {
                 for (StyleAttribute styleAttribute : style.getStyleAttributes()) {
                     AttributedCharacterIterator.Attribute att = styleAttribute.getAttributedStringAttribute();
-                    Object val = styleAttribute.getAttributesStringValue();
+                    Object val = styleAttribute.getAttributedStringValue();
                     as.addAttribute(att, val, start, end);
                 }
             }

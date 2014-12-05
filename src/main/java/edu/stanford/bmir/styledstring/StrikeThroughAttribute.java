@@ -45,7 +45,7 @@ public class StrikeThroughAttribute extends StyleAttribute {
     }
 
     @Override
-    public Object getAttributesStringValue() {
+    public Object getAttributedStringValue() {
         return strikeThrough == StrikeThrough.SINGLE;
     }
 

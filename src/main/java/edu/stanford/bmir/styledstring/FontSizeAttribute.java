@@ -38,7 +38,7 @@ public class FontSizeAttribute extends StyleAttribute {
     }
 
     @Override
-    public Object getAttributesStringValue() {
+    public Object getAttributedStringValue() {
         return fontSize;
     }
 
