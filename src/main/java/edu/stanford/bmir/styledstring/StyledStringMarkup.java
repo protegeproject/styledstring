@@ -1,5 +1,7 @@
 package edu.stanford.bmir.styledstring;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Matthew Horridge
  * Stanford University
@@ -8,16 +10,16 @@ package edu.stanford.bmir.styledstring;
  */
 public class StyledStringMarkup implements Comparable<StyledStringMarkup> {
 
-    private int start;
+    private final int start;
 
-    private int end;
+    private final int end;
 
-    private Style style;
+    private final Style style;
 
     public StyledStringMarkup(int start, int end, Style style) {
         this.start = start;
         this.end = end;
-        this.style = style;
+        this.style = checkNotNull(style);
     }
 
     public int getStart() {
