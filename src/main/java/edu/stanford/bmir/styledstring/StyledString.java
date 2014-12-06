@@ -22,7 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public final class StyledString implements CharSequence, Comparable<StyledString> {
 
-    public static final String EMPTY_STRING = "";
+    private static final String EMPTY_STRING = "";
 
     private static final StyledString EMPTY_STYLED_STRING = new StyledString();
 
