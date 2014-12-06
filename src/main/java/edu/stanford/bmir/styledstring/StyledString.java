@@ -38,6 +38,25 @@ public final class StyledString implements CharSequence, Comparable<StyledString
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Constructs a StyledString with the specified plain string marked up with the specified markup.
+     * @param text The plain string.  Not {@code null}.
+     * @param markup The markup.  Not {@code null}.  May be empty.
+     * @throws NullPointerException if {@code text} is {@code null}, if {@code markup} is {@code null}.
+     */
+    public StyledString(String text, List<StyledStringMarkup> markup) {
+        this.plainString = checkNotNull(text);
+        this.plainStringMarkup = ImmutableList.copyOf(checkNotNull(markup));
+    }
+
+    /**
+     * A convenience method that returns an empty styled string.
+     * @return A StyledString that is the empty string. Not {@code null}.
+     */
+    public static StyledString emptyString() {
+        return EMPTY_STYLED_STRING;
+    }
+
+    /**
      * Constructs an empty StyledString.
      */
     private StyledString() {
@@ -51,21 +70,6 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      */
     private StyledString(String text) {
         this(text, Collections.<StyledStringMarkup>emptyList());
-    }
-
-    /**
-     * Constructs a StyledString with the specified plain string marked up with the specified markup.
-     * @param text The plain string.  Not {@code null}.
-     * @param markup The markup.  Not {@code null}.  May be empty.
-     * @throws NullPointerException if {@code text} is {@code null}, if {@code markup} is {@code null}.
-     */
-    public StyledString(String text, List<StyledStringMarkup> markup) {
-        this.plainString = checkNotNull(text);
-        this.plainStringMarkup = ImmutableList.copyOf(checkNotNull(markup));
-    }
-
-    public static StyledString emptyString() {
-        return EMPTY_STYLED_STRING;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
