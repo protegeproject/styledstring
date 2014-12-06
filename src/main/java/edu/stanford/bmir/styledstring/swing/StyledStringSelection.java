@@ -82,7 +82,7 @@ public class StyledStringSelection implements Transferable {
             textRepresentation = renderer.toHTML(styledString);
         }
         else {
-            textRepresentation = styledString.toPlainText();
+            textRepresentation = styledString.getString();
         }
 
         if (flavor.getRepresentationClass().equals(String.class)) {

@@ -397,10 +397,4 @@ public final class StyledString implements CharSequence, Comparable<StyledString
         }
         return new Style(new ArrayList<StyleAttribute>(atts.values()));
     }
-
-
-
-    public String toPlainText() {
-        return plainString;
-    }
 }
