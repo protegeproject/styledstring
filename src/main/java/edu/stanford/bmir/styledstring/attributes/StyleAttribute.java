@@ -15,5 +15,4 @@ import java.text.AttributedCharacterIterator;
  */
 public abstract class StyleAttribute implements HasCssRepresentation, HasAttributedStringRepresentation, HasStyledDocumentRepresentation {
 
-
 }

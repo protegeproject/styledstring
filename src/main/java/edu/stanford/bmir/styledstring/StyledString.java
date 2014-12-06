@@ -1,6 +1,7 @@
 package edu.stanford.bmir.styledstring;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import edu.stanford.bmir.styledstring.attributes.StyleAttribute;
 
 import com.google.common.base.Objects;
@@ -267,7 +268,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
     public Style getMergedStyle(int index) {
         List<Style> styles = getStylesAt(index);
         if (styles.isEmpty()) {
-            return new Style();
+            return Style.emptyStyle();
         }
         if (styles.size() == 1) {
             return styles.get(0);
@@ -343,7 +344,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
             int start = mark();
             buffer.append(s);
             int end = mark();
-            Style style = new Style(attributes);
+            Style style = new Style(Arrays.asList(attributes));
             markup.add(new StyledStringMarkup(start, end, style));
         }
 
@@ -395,7 +396,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
             if (to > buffer.length()) {
                 throw new IndexOutOfBoundsException("to >= mark");
             }
-            Style style = new Style(styleAttributes);
+            Style style = new Style(Arrays.asList(styleAttributes));
             markup.add(new StyledStringMarkup(from, to, style));
         }
 
