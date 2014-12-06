@@ -1,5 +1,6 @@
 package edu.stanford.bmir.styledstring;
 
+import com.google.common.collect.ImmutableList;
 import edu.stanford.bmir.styledstring.attributes.StyleAttribute;
 
 import com.google.common.base.Objects;
@@ -34,7 +35,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
 
     private final String plainString;
 
-    private final List<StyledStringMarkup> plainStringMarkup;
+    private final ImmutableList<StyledStringMarkup> plainStringMarkup;
 
     private StyledStringLayout styledStringLayout;
 
@@ -68,7 +69,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      */
     public StyledString(String text, List<StyledStringMarkup> markup) {
         this.plainString = checkNotNull(text);
-        this.plainStringMarkup = Collections.unmodifiableList(new ArrayList<StyledStringMarkup>(checkNotNull(markup)));
+        this.plainStringMarkup = ImmutableList.copyOf(checkNotNull(markup));
     }
 
     public static StyledString emptyString() {
@@ -326,6 +327,10 @@ public final class StyledString implements CharSequence, Comparable<StyledString
 
     public String getString() {
         return plainString;
+    }
+
+    public ImmutableList<StyledStringMarkup> getMarkup() {
+        return plainStringMarkup;
     }
 
     public int length() {

@@ -52,6 +52,11 @@ public class StringString_TestCase {
     }
 
     @Test
+    public void shouldReturnSuppliedMarkup() {
+        assertThat(styledString.getMarkup(), is(markupList));
+    }
+
+    @Test
     public void shouldReturnCorrectLength() {
         assertThat(styledString.length(), is(MY_TEXT.length()));
     }
