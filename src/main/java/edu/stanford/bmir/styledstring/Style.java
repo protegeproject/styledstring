@@ -63,7 +63,7 @@ public class Style {
         return Collections.unmodifiableList(styleAttributes);
     }
 
-    public Style append(Style style) {
+    public Style addAll(Style style) {
         int size = styleAttributes.size() + style.styleAttributes.size();
         List<StyleAttribute> allAttributes = new ArrayList<StyleAttribute>(size);
         allAttributes.addAll(styleAttributes);

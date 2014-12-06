@@ -425,20 +425,6 @@ public final class StyledString implements CharSequence, Comparable<StyledString
         draw(g2, x, y);
     }
 
-
-//    public void addPrefix(String prefix) {
-//        plainString.insert(0, prefix);
-//        List<StyledStringMarkup> newMarkups = new ArrayList<StyledStringMarkup>();
-//        for (StyledStringMarkup markup : plainStringMarkup) {
-//            int inc = prefix.length();
-//            newMarkups.add(new StyledStringMarkup(markup.getStart() + inc, markup.getEnd() + inc, markup.getStyle()));
-//        }
-//        plainStringMarkup.clear();
-//        plainStringMarkup.addAll(newMarkups);
-//        handleMutation();
-//    }
-
-
     public void appendToStyledDocument(StyledDocument styledDocument) {
         try {
             styledDocument.remove(0, styledDocument.getLength());
@@ -511,7 +497,6 @@ public final class StyledString implements CharSequence, Comparable<StyledString
             }
         }
         runLimits.add(plainString.length());
-//        PrintWriter pw = new PrintWriter(writer);
         int lastLimit = 0;
         for (Integer runLimit : runLimits) {
             List<StyleAttribute> styleAttributes = getMergedStyle(runLimit - 1).getStyleAttributes();
