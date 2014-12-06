@@ -191,6 +191,97 @@ public final class StyledString implements CharSequence, Comparable<StyledString
                 .toString();
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public boolean isEmpty() {
+        return plainString.isEmpty();
+    }
+
+
+    public String getString() {
+        return plainString;
+    }
+
+    public ImmutableList<StyledStringMarkup> getMarkup() {
+        return plainStringMarkup;
+    }
+
+
+
+    public StyledString substring(int start, int end) {
+        if (end < start) {
+            throw new IndexOutOfBoundsException("start (" + start + ") < end (" + end + ")");
+        }
+        if (start == end) {
+            return EMPTY_STYLED_STRING;
+        }
+        String substring = plainString.substring(start, end);
+        List<StyledStringMarkup> substringMarkup = new ArrayList<StyledStringMarkup>();
+        for (StyledStringMarkup markup : plainStringMarkup) {
+            if (start < markup.getEnd() && end > markup.getStart()) {
+                int substringMarkupStart;
+                if (markup.getStart() < start) {
+                    substringMarkupStart = start;
+                }
+                else {
+                    substringMarkupStart = markup.getStart();
+                }
+                substringMarkupStart = substringMarkupStart - start;
+
+                int substringMarkupEnd;
+                if (markup.getEnd() > end) {
+                    substringMarkupEnd = end;
+                }
+                else {
+                    substringMarkupEnd = markup.getEnd();
+                }
+                substringMarkupEnd = substringMarkupEnd - start;
+                substringMarkup.add(new StyledStringMarkup(substringMarkupStart, substringMarkupEnd, markup.getStyle()));
+            }
+        }
+        return new StyledString(substring, substringMarkup);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public List<Style> getStylesAt(int index) {
+        List<Style> styles = new ArrayList<Style>();
+        for (StyledStringMarkup markup : plainStringMarkup) {
+            if (markup.getStart() <= index && index < markup.getEnd()) {
+                styles.add(markup.getStyle());
+            }
+        }
+        return styles;
+    }
+
+    public Style getMergedStyle(int index) {
+        List<Style> styles = getStylesAt(index);
+        if (styles.isEmpty()) {
+            return new Style();
+        }
+        if (styles.size() == 1) {
+            return styles.get(0);
+        }
+        Map<Class<? extends StyleAttribute>, StyleAttribute> atts = new HashMap<Class<? extends StyleAttribute>, StyleAttribute>();
+        for (Style style : styles) {
+            for (StyleAttribute styleAttribute : style.getStyleAttributes()) {
+                atts.put(styleAttribute.getClass(), styleAttribute);
+            }
+        }
+        return new Style(new ArrayList<StyleAttribute>(atts.values()));
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -318,93 +409,4 @@ public final class StyledString implements CharSequence, Comparable<StyledString
         }
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    public boolean isEmpty() {
-        return plainString.isEmpty();
-    }
-
-
-    public String getString() {
-        return plainString;
-    }
-
-    public ImmutableList<StyledStringMarkup> getMarkup() {
-        return plainStringMarkup;
-    }
-
-
-
-    public StyledString substring(int start, int end) {
-        if (end < start) {
-            throw new IndexOutOfBoundsException("start (" + start + ") < end (" + end + ")");
-        }
-        if (start == end) {
-            return EMPTY_STYLED_STRING;
-        }
-        String substring = plainString.substring(start, end);
-        List<StyledStringMarkup> substringMarkup = new ArrayList<StyledStringMarkup>();
-        for (StyledStringMarkup markup : plainStringMarkup) {
-            if (start < markup.getEnd() && end > markup.getStart()) {
-                int substringMarkupStart;
-                if (markup.getStart() < start) {
-                    substringMarkupStart = start;
-                }
-                else {
-                    substringMarkupStart = markup.getStart();
-                }
-                substringMarkupStart = substringMarkupStart - start;
-
-                int substringMarkupEnd;
-                if (markup.getEnd() > end) {
-                    substringMarkupEnd = end;
-                }
-                else {
-                    substringMarkupEnd = markup.getEnd();
-                }
-                substringMarkupEnd = substringMarkupEnd - start;
-                substringMarkup.add(new StyledStringMarkup(substringMarkupStart, substringMarkupEnd, markup.getStyle()));
-            }
-        }
-        return new StyledString(substring, substringMarkup);
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    public List<Style> getStylesAt(int index) {
-        List<Style> styles = new ArrayList<Style>();
-        for (StyledStringMarkup markup : plainStringMarkup) {
-            if (markup.getStart() <= index && index < markup.getEnd()) {
-                styles.add(markup.getStyle());
-            }
-        }
-        return styles;
-    }
-
-    public Style getMergedStyle(int index) {
-        List<Style> styles = getStylesAt(index);
-        if (styles.isEmpty()) {
-            return new Style();
-        }
-        if (styles.size() == 1) {
-            return styles.get(0);
-        }
-        Map<Class<? extends StyleAttribute>, StyleAttribute> atts = new HashMap<Class<? extends StyleAttribute>, StyleAttribute>();
-        for (Style style : styles) {
-            for (StyleAttribute styleAttribute : style.getStyleAttributes()) {
-                atts.put(styleAttribute.getClass(), styleAttribute);
-            }
-        }
-        return new Style(new ArrayList<StyleAttribute>(atts.values()));
-    }
 }
