@@ -1,4 +1,6 @@
-package edu.stanford.bmir.styledstring;
+package edu.stanford.bmir.styledstring.swing;
+
+import edu.stanford.bmir.styledstring.StyledString;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;

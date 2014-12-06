@@ -1,4 +1,4 @@
-package edu.stanford.bmir.styledstring;
+package edu.stanford.bmir.styledstring.swing;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
