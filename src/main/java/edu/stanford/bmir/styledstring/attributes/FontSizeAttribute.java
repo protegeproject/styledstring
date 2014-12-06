@@ -1,6 +1,6 @@
 package edu.stanford.bmir.styledstring.attributes;
 
-import edu.stanford.bmir.styledstring.CssConstants;
+import edu.stanford.bmir.styledstring.css.CssConstants;
 
 import javax.swing.text.StyleConstants;
 import java.awt.font.TextAttribute;
