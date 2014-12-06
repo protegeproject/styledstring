@@ -1,4 +1,4 @@
-package edu.stanford.bmir.styledstring.css;
+package edu.stanford.bmir.styledstring.html;
 
 /**
  * Matthew Horridge
