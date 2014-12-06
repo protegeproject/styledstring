@@ -21,7 +21,6 @@ public class StyledStringLayout {
 
     private final List<TextLayoutCache> textLayoutLines = new ArrayList<TextLayoutCache>();
 
-
     public StyledStringLayout(StyledString styledString) {
         createLines(styledString);
     }
@@ -36,7 +35,8 @@ public class StyledStringLayout {
         int lineEnd = 0;
         for (String line : lines) {
             lineEnd = lineStart + line.length();
-            AttributedCharacterIterator iterator = styledString.toAttributedString().getIterator();
+            AttributedStringRenderer attributedStringRenderer = new AttributedStringRenderer();
+            AttributedCharacterIterator iterator = attributedStringRenderer.toAttributedString(styledString).getIterator();
             AttributedString attributedLine = new AttributedString(iterator, lineStart, lineEnd);
             textLayoutLines.add(new TextLayoutCache(attributedLine));
             lineStart = lineEnd + 1;

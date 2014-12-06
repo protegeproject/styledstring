@@ -378,22 +378,6 @@ public final class StyledString implements CharSequence, Comparable<StyledString
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    public AttributedString toAttributedString() {
-        AttributedString as = new AttributedString(plainString.toString());
-        for (StyledStringMarkup markup : plainStringMarkup) {
-            Style style = markup.getStyle();
-            int start = markup.getStart();
-            int end = markup.getEnd();
-            if (start < end && -1 < start && start < plainString.length() && 0 < end && end <= plainString.length()) {
-                for (StyleAttribute styleAttribute : style.getStyleAttributes()) {
-                    AttributedCharacterIterator.Attribute att = styleAttribute.getAttributedStringAttribute();
-                    Object val = styleAttribute.getAttributedStringValue();
-                    as.addAttribute(att, val, start, end);
-                }
-            }
-        }
-        return as;
-    }
 
 
 
