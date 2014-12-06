@@ -1,6 +1,7 @@
 package edu.stanford.bmir.styledstring.swing;
 
 import edu.stanford.bmir.styledstring.StyledString;
+import edu.stanford.bmir.styledstring.html.HtmlRenderer;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -76,7 +77,8 @@ public class StyledStringSelection implements Transferable {
             textRepresentation = styledString.toRTF();
         }
         else if (flavor.isMimeTypeEqual(HTML_MIME_TYPE)) {
-            textRepresentation = styledString.toHTML();
+            HtmlRenderer renderer = new HtmlRenderer();
+            textRepresentation = renderer.toHTML(styledString);
         }
         else {
             textRepresentation = styledString.toPlainText();
