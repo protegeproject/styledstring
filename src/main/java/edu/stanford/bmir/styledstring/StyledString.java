@@ -5,13 +5,6 @@ import edu.stanford.bmir.styledstring.attributes.StyleAttribute;
 
 import com.google.common.base.Objects;
 
-import javax.swing.text.*;
-import javax.swing.text.rtf.RTFEditorKit;
-import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.io.*;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
 import java.util.*;
 import java.util.List;
 
@@ -378,33 +371,6 @@ public final class StyledString implements CharSequence, Comparable<StyledString
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
-    public void appendToStyledDocument(StyledDocument styledDocument) {
-        try {
-            styledDocument.remove(0, styledDocument.getLength());
-            styledDocument.insertString(0, getString(), null);
-            for (StyledStringMarkup markup : plainStringMarkup) {
-                Style style = markup.getStyle();
-                int length = markup.getEnd() - markup.getStart();
-                MutableAttributeSet mas = new SimpleAttributeSet();
-                for (StyleAttribute styleAttribute : style.getStyleAttributes()) {
-                    StyleConstants styleConstants = styleAttribute.getStyledDocumentStyleAttribute();
-                    Object value = styleAttribute.getStyledDocumentStyleAttributeValue();
-                    mas.addAttribute(styleConstants, value);
-                }
-                styledDocument.setCharacterAttributes(markup.getStart(), length, mas, false);
-
-
-            }
-        }
-        catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public List<Style> getStylesAt(int index) {
         List<Style> styles = new ArrayList<Style>();
         for (StyledStringMarkup markup : plainStringMarkup) {
@@ -437,26 +403,4 @@ public final class StyledString implements CharSequence, Comparable<StyledString
     public String toPlainText() {
         return plainString;
     }
-
-    public String toRTF() {
-        try {
-            RTFEditorKit editorKit = new RTFEditorKit();
-            StyledDocument document = (StyledDocument) editorKit.createDefaultDocument();
-            appendToStyledDocument(document);
-            MutableAttributeSet fontFamily = new SimpleAttributeSet();
-            StyleConstants.setFontFamily(fontFamily, Font.SANS_SERIF);
-            document.setParagraphAttributes(0, document.getLength(), fontFamily, false);
-            document.setCharacterAttributes(0, 4, fontFamily, false);
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            editorKit.write(os, document, 0, document.getLength());
-            return new String(os.toByteArray());
-        }
-        catch (IOException e) {
-            throw new RuntimeException("Problem rendering string into RTF", e);
-        }
-        catch (BadLocationException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

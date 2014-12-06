@@ -74,7 +74,8 @@ public class StyledStringSelection implements Transferable {
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         final String textRepresentation;
         if (flavor.isMimeTypeEqual(RTF_MIME_TYPE)) {
-            textRepresentation = styledString.toRTF();
+            RtfRenderer renderer = new RtfRenderer();
+            textRepresentation = renderer.toRtf(styledString);
         }
         else if (flavor.isMimeTypeEqual(HTML_MIME_TYPE)) {
             HtmlRenderer renderer = new HtmlRenderer();
