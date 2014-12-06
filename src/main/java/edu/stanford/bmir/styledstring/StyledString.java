@@ -37,7 +37,6 @@ public final class StyledString implements CharSequence, Comparable<StyledString
 
     private final ImmutableList<StyledStringMarkup> plainStringMarkup;
 
-    private StyledStringLayout styledStringLayout;
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -372,23 +371,12 @@ public final class StyledString implements CharSequence, Comparable<StyledString
         return new StyledString(substring, substringMarkup);
     }
 
-    private StyledStringLayout getStyledStringLayout() {
-        if (styledStringLayout == null) {
-            styledStringLayout = new StyledStringLayout(this);
-        }
-        return styledStringLayout;
-    }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    public void draw(Graphics2D g2, final float x, final float y) {
-        getStyledStringLayout().draw(g2, x, y);
-    }
 
     public AttributedString toAttributedString() {
         AttributedString as = new AttributedString(plainString.toString());
@@ -407,28 +395,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
         return as;
     }
 
-    public void drawVerticallyCentredInRect(Graphics2D g2, Rectangle rectangle) {
-        FontRenderContext fontRenderContext = g2.getFontRenderContext();
-        float height = getStyledStringLayout().getHeight(fontRenderContext);
-        float x = rectangle.x;
-        float y = rectangle.y + (float) (rectangle.getHeight() - height) / 2;
-        draw(g2, x, y);
-    }
 
-    public void drawHorizontallyCenteredInRect(Graphics2D g2, Rectangle rectangle) {
-        FontRenderContext fontRenderContext = g2.getFontRenderContext();
-        float x = rectangle.x + (float) (rectangle.getWidth() - getStyledStringLayout().getWidth(fontRenderContext)) / 2;
-        float y = rectangle.y;
-        draw(g2, x, y);
-    }
-
-    public void drawCentredInRect(Graphics2D g2, Rectangle rectangle) {
-        FontRenderContext fontRenderContext = g2.getFontRenderContext();
-        StyledStringLayout styledStringLayout = getStyledStringLayout();
-        float x = (float) (rectangle.getWidth() - styledStringLayout.getWidth(fontRenderContext)) / 2;
-        float y = (float) (rectangle.getHeight() - styledStringLayout.getHeight(fontRenderContext)) / 2;
-        draw(g2, x, y);
-    }
 
     public void appendToStyledDocument(StyledDocument styledDocument) {
         try {

@@ -13,7 +13,7 @@ public class StyledStringPanel extends JPanel {
 
     public static final int DEFAULT_ICON_PADDING = 2;
 
-    private StyledString styledString = StyledString.emptyString();
+    private StyledString styledString;
 
     private Icon icon = null;
 
@@ -55,7 +55,9 @@ public class StyledStringPanel extends JPanel {
             g.translate(icon.getIconWidth() + DEFAULT_ICON_PADDING, 0);
         }
         g2.setColor(getForeground());
-        styledString.draw(g2, 0, 0);
+        StyledStringLayout layout = new StyledStringLayout(styledString);
+        StyledStringPainter painter = new StyledStringPainter(layout);
+        painter.draw(g2, 0, 0);
 
         if (icon != null) {
             g.translate(-icon.getIconWidth() - DEFAULT_ICON_PADDING, 0);
