@@ -7,10 +7,13 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Matthew Horridge
@@ -20,7 +23,14 @@ import static org.hamcrest.core.Is.is;
 @RunWith(MockitoJUnitRunner.class)
 public class StringString_TestCase {
 
-    public static final String MY_TEXT = "MyText";
+    private static final String MY_TEXT = "MyText";
+
+    private static final int STYLE_START_INDEX = 1;
+
+    private static final int STYLE_END_INDEX = 2;
+
+    @Mock
+    private Style style;
 
     @Mock
     private StyledStringMarkup markup;
@@ -31,6 +41,12 @@ public class StringString_TestCase {
 
     @Before
     public void setUp() throws Exception {
+
+        when(markup.getStart()).thenReturn(STYLE_START_INDEX);
+        when(markup.getEnd()).thenReturn(STYLE_END_INDEX);
+        when(markup.getStyle()).thenReturn(style);
+
+
         markupList = Arrays.asList(markup);
         styledString = new StyledString(MY_TEXT, markupList);
     }
@@ -99,6 +115,23 @@ public class StringString_TestCase {
     @Test
     public void shouldReturnZeroForCompareToSelf() {
         assertThat(styledString.compareTo(styledString), is(0));
+    }
+
+    @Test
+    public void shouldReturnEmptyStylesListForEmptyString() {
+        assertThat(styledString.getStylesAt(0), is(Collections.<Style>emptyList()));
+    }
+
+    @Test
+    public void shouldReturnEmptyStylesList() {
+        List<Style> stylesAt0 = styledString.getStylesAt(0);
+        assertThat(stylesAt0.isEmpty(), is(true));
+    }
+
+    @Test
+    public void shouldReturnSpecifiedStylesAtStartIndex() {
+        List<Style> stylesAt1 = styledString.getStylesAt(STYLE_START_INDEX);
+        assertThat(stylesAt1, is(Arrays.asList(style)));
     }
 
 }
