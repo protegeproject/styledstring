@@ -91,6 +91,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      * @throws IndexOutOfBoundsException if the <tt>index</tt> argument is negative or not less than
      *                                   <tt>length()</tt>
      */
+    @Override
     public char charAt(int index) {
         return plainString.charAt(index);
     }
@@ -109,10 +110,17 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      *                                   if <tt>end</tt> is greater than <tt>length()</tt>,
      *                                   or if <tt>start</tt> is greater than <tt>end</tt>
      */
+    @Override
     public StyledString subSequence(int start, int end) {
         checkStartAndEnd(start, end);
         return substring(start, end);
     }
+
+    @Override
+    public int length() {
+        return plainString.length();
+    }
+
 
     /**
      * Checks to see if {@code start} and {@code end} are within bounds for this string.
@@ -151,6 +159,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      * @param o The other StyledString to compare to.
      * @return See {@link String#compareTo(Object)}.
      */
+    @Override
     public int compareTo(StyledString o) {
         return this.plainString.compareTo(o.plainString);
     }
@@ -329,9 +338,6 @@ public final class StyledString implements CharSequence, Comparable<StyledString
         return plainStringMarkup;
     }
 
-    public int length() {
-        return plainString.length();
-    }
 
 
     public StyledString substring(int start, int end) {
