@@ -2,6 +2,8 @@ package edu.stanford.bmir.styledstring;
 
 import edu.stanford.bmir.styledstring.attributes.StyleAttribute;
 
+import com.google.common.base.Objects;
+
 import javax.swing.text.*;
 import javax.swing.text.rtf.RTFEditorKit;
 import java.awt.*;
@@ -11,6 +13,9 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.*;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 /**
  * Matthew Horridge
@@ -25,7 +30,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
 
     public static final String EMPTY_STRING = "";
 
-    public static final StyledString EMPTY_STYLED_STRING = new StyledString();
+    private static final StyledString EMPTY_STYLED_STRING = new StyledString();
 
     private final String plainString;
 
@@ -42,7 +47,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
     /**
      * Constructs an empty StyledString.
      */
-    public StyledString() {
+    private StyledString() {
         this(EMPTY_STRING);
     }
 
@@ -51,7 +56,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      * @param text The plain string.  Not {@code null}.
      * @throws NullPointerException if text is {@code null}.
      */
-    public StyledString(String text) {
+    private StyledString(String text) {
         this(text, Collections.<StyledStringMarkup>emptyList());
     }
 
@@ -62,8 +67,12 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      * @throws NullPointerException if {@code text} is {@code null}, if {@code markup} is {@code null}.
      */
     public StyledString(String text, List<StyledStringMarkup> markup) {
-        this.plainString = text;
-        this.plainStringMarkup = Collections.unmodifiableList(new ArrayList<StyledStringMarkup>(markup));
+        this.plainString = checkNotNull(text);
+        this.plainStringMarkup = Collections.unmodifiableList(new ArrayList<StyledStringMarkup>(checkNotNull(markup)));
+    }
+
+    public static StyledString emptyString() {
+        return EMPTY_STYLED_STRING;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +159,32 @@ public final class StyledString implements CharSequence, Comparable<StyledString
     }
 
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof StyledString)) {
+            return false;
+        }
+        StyledString other = (StyledString) obj;
+        return this.plainString.equals(other.plainString) && this.plainStringMarkup.equals(other.plainStringMarkup);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.plainString.hashCode() + plainStringMarkup.hashCode();
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper("StyledString")
+                .addValue(plainString)
+                .add("markup", plainStringMarkup)
+                .toString();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,8 +194,12 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      * Gets a StyledString.Builder initialised with the contents of this StyledString.
      * @return A Builder.  Not {@code null}.
      */
-    public Builder builder() {
+    public Builder toBuilder() {
         return new Builder(this);
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     /**

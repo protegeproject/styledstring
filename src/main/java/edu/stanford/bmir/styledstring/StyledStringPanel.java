@@ -13,7 +13,7 @@ public class StyledStringPanel extends JPanel {
 
     public static final int DEFAULT_ICON_PADDING = 2;
 
-    private StyledString styledString = new StyledString();
+    private StyledString styledString = StyledString.emptyString();
 
     private Icon icon = null;
 
