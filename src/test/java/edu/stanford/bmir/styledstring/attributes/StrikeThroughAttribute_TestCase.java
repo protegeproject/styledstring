@@ -3,8 +3,11 @@ package edu.stanford.bmir.styledstring.attributes;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import javax.swing.text.StyleConstants;
+import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
@@ -62,5 +65,36 @@ public class StrikeThroughAttribute_TestCase {
     @Test
     public void shouldGenerateToString() {
         assertThat(strikeThroughAttribute.toString(), startsWith("StrikeThroughAttribute"));
+    }
+
+    @Test
+    public void shouldReturnCorrectCssPropertyName() {
+        assertThat(strikeThroughAttribute.getCssPropertyName(), is("text-decoration"));
+    }
+
+    @Test
+    public void shouldReturnCorrectCssPropertyValue() {
+        assertThat(strikeThroughAttribute.getCssPropertyValue(), is("line-through"));
+    }
+
+    @Test
+    public void shouldReturnCorrectAttributedStringAttribute() {
+        AttributedCharacterIterator.Attribute expected = TextAttribute.STRIKETHROUGH;
+        assertThat(strikeThroughAttribute.getAttributedStringAttribute(), is(expected));
+    }
+
+    @Test
+    public void shouldReturnCorrectAttributedStringValue() {
+        assertThat(strikeThroughAttribute.getAttributedStringValue(), is((Object) TextAttribute.STRIKETHROUGH_ON));
+    }
+
+    @Test
+    public void shouldReturnCorrectStyledDocumentStyleAttribute() {
+        assertThat(strikeThroughAttribute.getStyledDocumentStyleAttribute(), is(StyleConstants.StrikeThrough));
+    }
+
+    @Test
+    public void shouldReturnCorrectStyledDocumentAttributeValue() {
+        assertThat(strikeThroughAttribute.getStyledDocumentStyleAttributeValue(), is((Object) true));
     }
 }
