@@ -27,12 +27,11 @@ public class StrikeThroughAttribute_TestCase {
     private StrikeThroughAttribute strikeThroughAttribute;
 
     private StrikeThroughAttribute otherStrikeThroughAttribute;
-    private StrikeThrough strikeThrough;
 
 
     @Before
     public void setUp() throws Exception {
-        strikeThrough = StrikeThrough.SINGLE;
+        StrikeThrough strikeThrough = StrikeThrough.SINGLE;
         strikeThroughAttribute = new StrikeThroughAttribute(strikeThrough);
         otherStrikeThroughAttribute = new StrikeThroughAttribute(strikeThrough);
     }
