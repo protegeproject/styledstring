@@ -6,6 +6,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import javax.swing.text.StyleConstants;
+import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -57,5 +61,36 @@ public class FontWeightAttribute_TestCase {
     @Test
     public void shouldGenerateToString() {
         assertThat(fontWeightAttribute.toString(), containsString(fontWeight.toString()));
+    }
+
+    @Test
+    public void shouldReturnCorrectCssPropertyName() {
+        assertThat(fontWeightAttribute.getCssPropertyName(), is("font-weight"));
+    }
+
+    @Test
+    public void shouldReturnCorrectCssPropertyValue() {
+        assertThat(fontWeightAttribute.getCssPropertyValue(), is("bold"));
+    }
+
+    @Test
+    public void shouldReturnCorrectAttributedStringAttribute() {
+        AttributedCharacterIterator.Attribute expected = TextAttribute.WEIGHT;
+        assertThat(fontWeightAttribute.getAttributedStringAttribute(), is(expected));
+    }
+
+    @Test
+    public void shouldReturnCorrectAttributedStringValue() {
+        assertThat(fontWeightAttribute.getAttributedStringValue(), is((Object) TextAttribute.WEIGHT_BOLD));
+    }
+
+    @Test
+    public void shouldReturnCorrectStyledDocumentStyleAttribute() {
+        assertThat(fontWeightAttribute.getStyledDocumentStyleAttribute(), is(StyleConstants.Bold));
+    }
+
+    @Test
+    public void shouldReturnCorrectStyledDocumentAttributeValue() {
+        assertThat(fontWeightAttribute.getStyledDocumentStyleAttributeValue(), is((Object) true));
     }
 }
