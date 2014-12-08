@@ -1,5 +1,6 @@
 package edu.stanford.bmir.styledstring.attributes;
 
+import com.google.common.base.Objects;
 import edu.stanford.bmir.styledstring.html.CssConstants;
 
 import javax.swing.text.StyleConstants;
@@ -16,7 +17,7 @@ public class FontSizeAttribute extends StyleAttribute {
 
     private int fontSize;
 
-    private FontSizeAttribute(int fontSize) {
+    public FontSizeAttribute(int fontSize) {
         this.fontSize = fontSize;
     }
 
@@ -69,5 +70,13 @@ public class FontSizeAttribute extends StyleAttribute {
         }
         FontSizeAttribute other = (FontSizeAttribute) obj;
         return this.fontSize == other.fontSize;
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper("FontSizeAttribute")
+                .addValue(fontSize)
+                .toString();
     }
 }
