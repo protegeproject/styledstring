@@ -1,11 +1,14 @@
 package edu.stanford.bmir.styledstring.attributes;
 
+import com.google.common.base.Objects;
 import edu.stanford.bmir.styledstring.html.CssConstants;
 
 import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Matthew Horridge
@@ -19,8 +22,8 @@ public class ForegroundAttribute extends StyleAttribute {
 
     private Color foreground;
 
-    private ForegroundAttribute(Color foreground) {
-        this.foreground = foreground;
+    public ForegroundAttribute(Color foreground) {
+        this.foreground = checkNotNull(foreground);
     }
 
     public static ForegroundAttribute get(Color foreground) {
@@ -34,7 +37,6 @@ public class ForegroundAttribute extends StyleAttribute {
 
     @Override
     public String getCssPropertyValue() {
-//        String s = Integer.toHexString(foreground.getRGB() & 0x00ffffff);
         return String.format("#%06x", foreground.getRGB() & 0x00ffffff);
     }
 
@@ -81,5 +83,13 @@ public class ForegroundAttribute extends StyleAttribute {
         }
         ForegroundAttribute other = (ForegroundAttribute) obj;
         return this.foreground.equals(other.foreground);
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper("ForegroundAttribute")
+                .addValue(foreground)
+                .toString();
     }
 }
