@@ -1,11 +1,14 @@
 package edu.stanford.bmir.styledstring.attributes;
 
+import com.google.common.base.Objects;
 import edu.stanford.bmir.styledstring.html.CssConstants;
 
 import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Matthew Horridge
@@ -18,8 +21,8 @@ public class BackgroundAttribute extends StyleAttribute {
 
     private Color background;
 
-    private BackgroundAttribute(Color background) {
-        this.background = background;
+    public BackgroundAttribute(Color background) {
+        this.background = checkNotNull(background);
     }
 
     public static BackgroundAttribute get(Color color) {
@@ -33,7 +36,7 @@ public class BackgroundAttribute extends StyleAttribute {
 
     @Override
     public String getCssPropertyValue() {
-        return Integer.toHexString(background.getRGB() & 0x00ffffff);
+        return "#" + Integer.toHexString(background.getRGB() & 0x00ffffff);
     }
 
     @Override
@@ -71,5 +74,13 @@ public class BackgroundAttribute extends StyleAttribute {
         }
         BackgroundAttribute other = (BackgroundAttribute) obj;
         return this.background.equals(other.background);
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper("BackgroundAttribute")
+                .addValue(background)
+                .toString();
     }
 }
