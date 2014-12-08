@@ -1,5 +1,6 @@
 package edu.stanford.bmir.styledstring.attributes;
 
+import com.google.common.base.Objects;
 import edu.stanford.bmir.styledstring.html.CssConstants;
 
 import javax.swing.text.StyleConstants;
@@ -76,6 +77,14 @@ public class FontWeightAttribute extends StyleAttribute {
         }
         FontWeightAttribute other = (FontWeightAttribute) obj;
         return this.fontWeight == other.fontWeight;
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper("FontWeightAttribute")
+                .addValue(fontWeight)
+                .toString();
     }
 
 }
