@@ -73,7 +73,7 @@ public class HtmlRenderer {
 
         String[] lines = pw.toString().split("\\n");
         PrintWriter p = new PrintWriter(writer);
-        p.append("<div style=\"font-family: verdana,sans-serif;\">");
+        p.append("<div\">");
         int counter = 0;
         for (String line : lines) {
             counter++;
