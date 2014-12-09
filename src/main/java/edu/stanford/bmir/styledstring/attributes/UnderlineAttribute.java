@@ -1,10 +1,13 @@
 package edu.stanford.bmir.styledstring.attributes;
 
+import com.google.common.base.Objects;
 import edu.stanford.bmir.styledstring.html.CssConstants;
 
 import javax.swing.text.StyleConstants;
 import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Matthew Horridge
@@ -22,7 +25,7 @@ public class UnderlineAttribute extends StyleAttribute {
     private Underline underline;
 
     public UnderlineAttribute(Underline underline) {
-        this.underline = underline;
+        this.underline = checkNotNull(underline);
     }
 
     public Underline getUnderline() {
@@ -54,7 +57,7 @@ public class UnderlineAttribute extends StyleAttribute {
 
     @Override
     public Object getAttributedStringValue() {
-        return TextAttribute.UNDERLINE_LOW_ONE_PIXEL;
+        return TextAttribute.UNDERLINE_ON;
     }
 
     @Override
@@ -82,5 +85,13 @@ public class UnderlineAttribute extends StyleAttribute {
         }
         UnderlineAttribute other = (UnderlineAttribute) obj;
         return this.underline.equals(other.underline);
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper("UnderlineAttribute")
+                .addValue(underline)
+                .toString();
     }
 }
