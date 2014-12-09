@@ -74,9 +74,7 @@ public class HtmlRenderer {
         String[] lines = pw.toString().split("\\n");
         PrintWriter p = new PrintWriter(writer);
         p.append("<div\">");
-        int counter = 0;
         for (String line : lines) {
-            counter++;
             if (!line.equals("\n")) {
                 p.append("<div class=\"line\">\n");
                 p.append(line.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;"));
