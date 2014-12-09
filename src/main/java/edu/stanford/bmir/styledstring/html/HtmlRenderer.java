@@ -79,7 +79,7 @@ public class HtmlRenderer {
             counter++;
             if (!line.equals("\n")) {
                 p.append("<div class=\"line\">\n");
-                p.append(line);
+                p.append(line.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;"));
                 p.append("\n");
                 p.append("</div>\n");
             }
