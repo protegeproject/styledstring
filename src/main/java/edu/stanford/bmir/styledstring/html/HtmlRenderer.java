@@ -1,5 +1,7 @@
 package edu.stanford.bmir.styledstring.html;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import edu.stanford.bmir.styledstring.Style;
 import edu.stanford.bmir.styledstring.StyledString;
 import edu.stanford.bmir.styledstring.StyledStringMarkup;
@@ -31,10 +33,10 @@ public class HtmlRenderer {
 
         List<StyledStringMarkup> sortedMarkups = new ArrayList<StyledStringMarkup>(styledString.getMarkup());
         Collections.sort(sortedMarkups);
-        Set<Style> currentStyles = new HashSet<Style>();
-        List<Integer> runLimits = new ArrayList<Integer>();
+        Set<Style> currentStyles = Sets.newHashSet();
+        List<Integer> runLimits = Lists.newArrayList();
         for (int i = 0; i < styledString.length(); i++) {
-            Set<Style> iStyles = new HashSet<Style>();
+            Set<Style> iStyles = Sets.newHashSet();
             for (StyledStringMarkup markup : sortedMarkups) {
                 if (markup.getStart() <= i && i < markup.getEnd()) {
                     iStyles.add(markup.getStyle());
