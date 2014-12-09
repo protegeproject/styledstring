@@ -1,5 +1,6 @@
 package edu.stanford.bmir.styledstring.html;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import edu.stanford.bmir.styledstring.Style;
@@ -10,7 +11,10 @@ import edu.stanford.bmir.styledstring.attributes.StyleAttribute;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Matthew Horridge
@@ -86,7 +90,12 @@ public class HtmlRenderer {
         }
         p.append("</div>");
         p.flush();
+    }
 
 
+    @Override
+    public String toString() {
+        return Objects.toStringHelper("HtmlRenderer")
+                .toString();
     }
 }
