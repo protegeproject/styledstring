@@ -310,7 +310,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
 
         public static final String SPACE = " ";
 
-        public static final String TAB = "\t";
+        public static final String TAB = "    ";
 
         private StringBuilder buffer = new StringBuilder();
 
