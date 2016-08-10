@@ -33,10 +33,10 @@ public class StyledStringLayout {
         String[] lines = styledString.getString().split("\\n");
         int lineStart = 0;
         int lineEnd = 0;
+        final AttributedStringRenderer attributedStringRenderer = new AttributedStringRenderer();
+        final AttributedCharacterIterator iterator = attributedStringRenderer.toAttributedString(styledString).getIterator();
         for (String line : lines) {
             lineEnd = lineStart + line.length();
-            AttributedStringRenderer attributedStringRenderer = new AttributedStringRenderer();
-            AttributedCharacterIterator iterator = attributedStringRenderer.toAttributedString(styledString).getIterator();
             AttributedString attributedLine = new AttributedString(iterator, lineStart, lineEnd);
             textLayoutLines.add(new TextLayoutCache(attributedLine));
             lineStart = lineEnd + 1;
@@ -74,7 +74,6 @@ public class StyledStringLayout {
             leading = textLayout.getLeading();
             ascent = textLayout.getAscent();
             yOffset += leading + ascent + descent;
-
             textLayout.draw(g2, x, yOffset);
             descent = textLayout.getDescent();
 
