@@ -8,8 +8,9 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
+
+import static com.google.common.base.MoreObjects.toStringHelper;
 
 /**
  * Matthew Horridge
@@ -78,9 +79,24 @@ public class StyledStringLayout {
             yOffset += leading + ascent + descent;
             textLayout.draw(g2, x, yOffset);
             descent = textLayout.getDescent();
-
         }
+    }
 
+    public Optional<HitInfo> getHitInfo(int ptX, int ptY, FontRenderContext fontRenderContext) {
+        int lineNumber = 0;
+        float y0 = 0;
+        for(TextLayoutCache cache : textLayoutLines) {
+            float y1 = y0 + cache.getHeight(fontRenderContext);
+            if(y0 <= ptY && ptY < y1) {
+                int charIndexAtPoint = cache.getCharIndexAtPoint(ptX, ptY, fontRenderContext);
+                if(charIndexAtPoint != -1) {
+                    return Optional.of(new HitInfo(lineNumber, charIndexAtPoint));
+                }
+            }
+            y0 = y1;
+            lineNumber++;
+        }
+        return Optional.empty();
     }
 
 
