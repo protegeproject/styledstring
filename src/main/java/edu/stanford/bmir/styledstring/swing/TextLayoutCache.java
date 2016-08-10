@@ -1,6 +1,9 @@
 package edu.stanford.bmir.styledstring.swing;
 
+import javax.swing.plaf.FontUIResource;
+import java.awt.*;
 import java.awt.font.FontRenderContext;
+import java.awt.font.TextHitInfo;
 import java.awt.font.TextLayout;
 import java.text.AttributedString;
 
@@ -52,7 +55,12 @@ public class TextLayoutCache {
     public float getBaseline(FontRenderContext fontRenderContext) {
         TextLayout tl = getTextLayout(fontRenderContext);
         return tl.getLeading() + tl.getAscent();
+    }
 
+    public int getCharIndexAtPoint(int pointX, int pointY, FontRenderContext fontRenderContext) {
+        TextLayout layout = getTextLayout(fontRenderContext);
+        TextHitInfo info = layout.hitTestChar(pointX, pointY);
+        return info.getCharIndex();
     }
 
 
