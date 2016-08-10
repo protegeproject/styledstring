@@ -1,5 +1,6 @@
 package edu.stanford.bmir.styledstring.swing;
 
+import com.google.common.collect.ImmutableList;
 import edu.stanford.bmir.styledstring.StyledString;
 
 import java.awt.*;
@@ -19,28 +20,29 @@ import java.util.List;
 public class StyledStringLayout {
 
 
-    private final List<TextLayoutCache> textLayoutLines = new ArrayList<TextLayoutCache>();
+    private final ImmutableList<TextLayoutCache> textLayoutLines;
 
     public StyledStringLayout(StyledString styledString) {
-        createLines(styledString);
+        textLayoutLines = createLines(styledString);
     }
 
 
-    private void createLines(StyledString styledString) {
+    private static ImmutableList<TextLayoutCache> createLines(StyledString styledString) {
         if (styledString.isEmpty()) {
-            return;
+            return ImmutableList.of();
         }
         String[] lines = styledString.getString().split("\\n");
         int lineStart = 0;
-        int lineEnd = 0;
         final AttributedStringRenderer attributedStringRenderer = new AttributedStringRenderer();
         final AttributedCharacterIterator iterator = attributedStringRenderer.toAttributedString(styledString).getIterator();
+        ImmutableList.Builder<TextLayoutCache> builder = ImmutableList.builder();
         for (String line : lines) {
-            lineEnd = lineStart + line.length();
+            int lineEnd = lineStart + line.length();
             AttributedString attributedLine = new AttributedString(iterator, lineStart, lineEnd);
-            textLayoutLines.add(new TextLayoutCache(attributedLine));
+            builder.add(new TextLayoutCache(attributedLine));
             lineStart = lineEnd + 1;
         }
+        return builder.build();
     }
 
 
@@ -65,8 +67,8 @@ public class StyledStringLayout {
 
     public void draw(Graphics2D g2, float x, float y) {
         float yOffset = y;
-        float leading = 0;
-        float ascent = 0;
+        float leading;
+        float ascent;
         float descent = 0;
         for (TextLayoutCache cache : textLayoutLines) {
             FontRenderContext frc = g2.getFontRenderContext();
