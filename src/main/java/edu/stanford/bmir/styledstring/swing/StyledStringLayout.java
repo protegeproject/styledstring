@@ -123,16 +123,18 @@ public class StyledStringLayout {
      */
     public void draw(@Nonnull Graphics2D g2, float x, float y) {
         float yOffset = y;
-        float leading;
+        float leading = 0;
         float ascent;
         float descent = 0;
         for (TextLayoutCache cache : textLayoutLines) {
             FontRenderContext frc = g2.getFontRenderContext();
             TextLayout textLayout = cache.getTextLayout(frc);
-            leading = textLayout.getLeading();
+
             ascent = textLayout.getAscent();
             yOffset += leading + ascent + descent;
             textLayout.draw(g2, x, yOffset);
+
+            leading = textLayout.getLeading();
             descent = textLayout.getDescent();
         }
     }
