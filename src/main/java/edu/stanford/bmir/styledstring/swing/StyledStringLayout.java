@@ -2,6 +2,7 @@ package edu.stanford.bmir.styledstring.swing;
 
 import com.google.common.collect.ImmutableList;
 import edu.stanford.bmir.styledstring.StyledString;
+import edu.stanford.bmir.styledstring.StyledStringLink;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -11,6 +12,7 @@ import java.text.AttributedString;
 import java.util.Optional;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Matthew Horridge
@@ -23,8 +25,11 @@ public class StyledStringLayout {
 
     private final ImmutableList<TextLayoutCache> textLayoutLines;
 
+    private final StyledString styledString;
+
     public StyledStringLayout(StyledString styledString) {
-        textLayoutLines = createLines(styledString);
+        this.styledString = checkNotNull(styledString);
+        this.textLayoutLines = createLines(styledString);
     }
 
 
@@ -40,7 +45,7 @@ public class StyledStringLayout {
         for (String line : lines) {
             int lineEnd = lineStart + line.length();
             AttributedString attributedLine = new AttributedString(iterator, lineStart, lineEnd);
-            builder.add(new TextLayoutCache(attributedLine));
+            builder.add(new TextLayoutCache(attributedLine, line));
             lineStart = lineEnd + 1;
         }
         return builder.build();
@@ -85,18 +90,26 @@ public class StyledStringLayout {
     public Optional<HitInfo> getHitInfo(int ptX, int ptY, FontRenderContext fontRenderContext) {
         int lineNumber = 0;
         float y0 = 0;
+        int offsetIndex = 0;
         for(TextLayoutCache cache : textLayoutLines) {
             float y1 = y0 + cache.getHeight(fontRenderContext);
             if(y0 <= ptY && ptY < y1) {
                 int charIndexAtPoint = cache.getCharIndexAtPoint(ptX, ptY, fontRenderContext);
                 if(charIndexAtPoint != -1) {
-                    return Optional.of(new HitInfo(lineNumber, charIndexAtPoint));
+                    int absoluteIndex = offsetIndex + charIndexAtPoint;
+                    return Optional.of(new HitInfo(lineNumber, charIndexAtPoint, absoluteIndex));
                 }
             }
             y0 = y1;
+            offsetIndex += cache.getPlainString().length() + 1; // Add 1 for new line
             lineNumber++;
         }
         return Optional.empty();
+    }
+
+    public Optional<StyledStringLink> getLinkAt(int ptX, int ptY, FontRenderContext fontRenderContext) {
+        return getHitInfo(ptX, ptY, fontRenderContext)
+                .flatMap(hit -> styledString.getLinkAt(hit.getAbsoluteIndex()));
     }
 
 
