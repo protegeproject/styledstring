@@ -31,7 +31,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
 
     private final ImmutableList<StyledStringMarkup> plainStringMarkup;
 
-
+    private final ImmutableList<StyledStringLink> links;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,9 +44,10 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      * @param markup The markup.  Not {@code null}.  May be empty.
      * @throws NullPointerException if {@code text} is {@code null}, if {@code markup} is {@code null}.
      */
-    public StyledString(String text, List<StyledStringMarkup> markup) {
+    public StyledString(String text, List<StyledStringMarkup> markup, List<StyledStringLink> links) {
         this.plainString = checkNotNull(text);
         this.plainStringMarkup = ImmutableList.copyOf(checkNotNull(markup));
+        this.links = ImmutableList.copyOf(checkNotNull(links));
     }
 
     /**
@@ -70,7 +71,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      * @throws NullPointerException if text is {@code null}.
      */
     private StyledString(String text) {
-        this(text, Collections.<StyledStringMarkup>emptyList());
+        this(text, ImmutableList.of(), ImmutableList.of());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,7 +223,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
             return EMPTY_STYLED_STRING;
         }
         String substring = plainString.substring(start, end);
-        List<StyledStringMarkup> substringMarkup = new ArrayList<StyledStringMarkup>();
+        ImmutableList.Builder<StyledStringMarkup> substringMarkup = ImmutableList.builder();
         for (StyledStringMarkup markup : plainStringMarkup) {
             if (start < markup.getEnd() && end > markup.getStart()) {
                 int substringMarkupStart;
@@ -245,7 +246,30 @@ public final class StyledString implements CharSequence, Comparable<StyledString
                 substringMarkup.add(new StyledStringMarkup(substringMarkupStart, substringMarkupEnd, markup.getStyle()));
             }
         }
-        return new StyledString(substring, substringMarkup);
+        ImmutableList.Builder<StyledStringLink> substringLinks = ImmutableList.builder();
+        for(StyledStringLink link : links) {
+            if(start < link.getEndIndex() && end > link.getStartIndex()) {
+                int substringLinkStart;
+                if (link.getStartIndex() < start) {
+                    substringLinkStart = start;
+                }
+                else {
+                    substringLinkStart = link.getStartIndex();
+                }
+                substringLinkStart = substringLinkStart - start;
+
+                int substringLinkEnd;
+                if (link.getEndIndex() > end) {
+                    substringLinkEnd = end;
+                }
+                else {
+                    substringLinkEnd = link.getEndIndex();
+                }
+                substringLinkEnd = substringLinkEnd - start;
+                substringLinks.add(new StyledStringLink(substringLinkStart, substringLinkEnd, link.getLinkObject()));
+            }
+        }
+        return new StyledString(substring, substringMarkup.build(), substringLinks.build());
     }
 
 
@@ -263,6 +287,19 @@ public final class StyledString implements CharSequence, Comparable<StyledString
             }
         }
         return styles;
+    }
+
+    public ImmutableList<StyledStringLink> getLinks() {
+        return links;
+    }
+
+    public Optional<StyledStringLink> getLinkAt(int index) {
+        for(StyledStringLink link : links) {
+            if(link.containsIndex(index)) {
+                return Optional.of(link);
+            }
+        }
+        return Optional.empty();
     }
 
     public Style getMergedStyle(int index) {
@@ -314,7 +351,9 @@ public final class StyledString implements CharSequence, Comparable<StyledString
 
         private StringBuilder buffer = new StringBuilder();
 
-        private List<StyledStringMarkup> markup = new ArrayList<StyledStringMarkup>();
+        private ImmutableList.Builder<StyledStringMarkup> markup = ImmutableList.builder();
+
+        private ImmutableList.Builder<StyledStringLink> links = ImmutableList.builder();
 
         public Builder() {
 
@@ -323,6 +362,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
         public Builder(StyledString styledString) {
             buffer.append(styledString.plainString);
             markup.addAll(styledString.plainStringMarkup);
+            links.addAll(styledString.links);
         }
 
         public int mark() {
@@ -406,7 +446,11 @@ public final class StyledString implements CharSequence, Comparable<StyledString
 
 
         public StyledString build() {
-            return new StyledString(buffer.toString(), markup);
+            return new StyledString(buffer.toString(), markup.build(), links.build());
+        }
+
+        public void addLink(StyledStringLink styledStringLink) {
+            links.add(styledStringLink);
         }
     }
 

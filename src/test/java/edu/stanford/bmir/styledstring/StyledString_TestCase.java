@@ -1,5 +1,6 @@
 package edu.stanford.bmir.styledstring;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.when;
  * 05/12/14
  */
 @RunWith(MockitoJUnitRunner.class)
-public class StringString_TestCase {
+public class StyledString_TestCase {
 
     private static final String MY_TEXT = "MyText";
 
@@ -39,6 +40,8 @@ public class StringString_TestCase {
 
     private List<StyledStringMarkup> markupList;
 
+    private ImmutableList<StyledStringLink> links = ImmutableList.of();
+
     @Before
     public void setUp() throws Exception {
 
@@ -48,18 +51,18 @@ public class StringString_TestCase {
 
 
         markupList = Arrays.asList(markup);
-        styledString = new StyledString(MY_TEXT, markupList);
+        styledString = new StyledString(MY_TEXT, markupList, links);
     }
 
 
     @Test(expected = NullPointerException.class)
     public void shouldThrowNullPointerExceptionIfTextIsNull() {
-        new StyledString(null, markupList);
+        new StyledString(null, markupList, links);
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldThrowNullPointerExceptionIfMarkupListIsNull() {
-        new StyledString(MY_TEXT, null);
+        new StyledString(MY_TEXT, null, links);
     }
 
     @Test
@@ -99,12 +102,12 @@ public class StringString_TestCase {
 
     @Test
     public void shouldEqualOther() {
-        assertThat(styledString.equals(new StyledString(MY_TEXT, markupList)), is(true));
+        assertThat(styledString.equals(new StyledString(MY_TEXT, markupList, links)), is(true));
     }
 
     @Test
     public void shouldHaveSameHashCode() {
-        assertThat(styledString.hashCode(), is(new StyledString(MY_TEXT, markupList).hashCode()));
+        assertThat(styledString.hashCode(), is(new StyledString(MY_TEXT, markupList, links).hashCode()));
     }
 
     @Test
