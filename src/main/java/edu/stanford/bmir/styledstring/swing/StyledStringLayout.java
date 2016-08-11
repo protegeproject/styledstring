@@ -5,6 +5,7 @@ import edu.stanford.bmir.styledstring.StyledString;
 import edu.stanford.bmir.styledstring.StyledStringLink;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
@@ -23,6 +24,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Stanford University
  * Bio-Medical Informatics Research Group
  * Date: 5th December 2014
+ *
+ * An object that represents the layout information for a StyledString. The layout is capable of drawing the string
+ * on a Graphics object.
  */
 public class StyledStringLayout {
 
@@ -44,6 +48,12 @@ public class StyledStringLayout {
         return new StyledStringLayout(styledString, lines);
     }
 
+    /**
+     * Creates lines for the layout.  This essentially splits the string into separate lines (on the new line
+     * character '\n') and computes AttributedStrings for these lines.
+     * @param styledString The string to compute the lines for.
+     * @return The lines.
+     */
     private static ImmutableList<TextLayoutCache> createLines(StyledString styledString) {
         if (styledString.isEmpty()) {
             return ImmutableList.of();
