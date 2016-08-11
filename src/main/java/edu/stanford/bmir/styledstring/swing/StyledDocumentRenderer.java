@@ -4,6 +4,8 @@ import edu.stanford.bmir.styledstring.Style;
 import edu.stanford.bmir.styledstring.StyledString;
 import edu.stanford.bmir.styledstring.StyledStringMarkup;
 import edu.stanford.bmir.styledstring.attributes.StyleAttribute;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.text.*;
 
@@ -14,6 +16,7 @@ import javax.swing.text.*;
  */
 public class StyledDocumentRenderer {
 
+    private static final Logger logger = LoggerFactory.getLogger(StyledDocumentRenderer.class);
 
     public void renderIntoStyledDocument(StyledString styledString, StyledDocument styledDocument) {
         try {
@@ -29,12 +32,10 @@ public class StyledDocumentRenderer {
                     mas.addAttribute(styleConstants, value);
                 }
                 styledDocument.setCharacterAttributes(markup.getStart(), length, mas, false);
-
-
             }
         }
         catch (BadLocationException e) {
-            e.printStackTrace();
+            logger.error("BadLocationException whilst rendering document", e);
         }
     }
 }
