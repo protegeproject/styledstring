@@ -31,7 +31,7 @@ public enum CssConstants {
 
     String name;
 
-    private CssConstants(String name) {
+    CssConstants(String name) {
         this.name = name;
     }
 
