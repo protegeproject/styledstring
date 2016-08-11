@@ -88,7 +88,7 @@ public class StyledStringLayout {
 
     /**
      * Gets the width of the bounding box of this styled string.
-     * @param fontRenderContext The FontRenderContext that should be used to compute character widths.
+     * @param fontRenderContext The FontRenderContext for the graphics object that is used to draw the text.
      * @return The width of the bounding box.
      */
     public float getWidth(@Nonnull FontRenderContext fontRenderContext) {
@@ -104,7 +104,7 @@ public class StyledStringLayout {
 
     /**
      * Gets the height of the bounding box of this styled string.
-     * @param fontRenderContext The FontRenderContext that should be used to compute character heights.
+     * @param fontRenderContext The FontRenderContext for the graphics object that is used to draw the text.
      * @return The height.
      */
     public float getHeight(@Nonnull FontRenderContext fontRenderContext) {
@@ -144,7 +144,7 @@ public class StyledStringLayout {
      * layout.
      * @param ptX The x coordinate of the point.
      * @param ptY The y coordinate of the point.
-     * @param fontRenderContext The font render content used to compute character sizes.
+     * @param fontRenderContext The FontRenderContext for the graphics object that is used to draw the text.
      * @return The HitInfo.  If the point is outside of the bounds of the rendered text then an empty value will
      * be returned.
      */
@@ -179,7 +179,7 @@ public class StyledStringLayout {
      * Gets the link at the specified point.  The point is considered relative to the top left corner of the text layout.
      * @param ptX The x coordinate of the point.
      * @param ptY The y coordinate of the point.
-     * @param fontRenderContext The font render content used to compute character sizes.
+     * @param fontRenderContext The FontRenderContext for the graphics object that is used to draw the text.
      * @return The link at the specified location.  An absent value indicates that there is no link at the specified
      * location.
      */
@@ -192,7 +192,7 @@ public class StyledStringLayout {
     /**
      * Gets the height of a given line.
      * @param lineIndex The index of the line.
-     * @param fontRenderContext The font render context used to compute line height.
+     * @param fontRenderContext The FontRenderContext for the graphics object that is used to draw the text.
      * @return The height.  If the specified index it out of bounds then an empty value will be returned.
      */
     @Nonnull
