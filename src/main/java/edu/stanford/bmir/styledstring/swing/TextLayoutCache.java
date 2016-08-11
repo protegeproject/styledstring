@@ -26,8 +26,15 @@ public class TextLayoutCache {
 
     private TextLayout cachedLayout;
 
-    public TextLayoutCache(AttributedString attributedString) {
+    private final String plainString;
+
+    public TextLayoutCache(AttributedString attributedString, String plainString) {
         this.attributedString = checkNotNull(attributedString);
+        this.plainString = plainString;
+    }
+
+    public String getPlainString() {
+        return plainString;
     }
 
     public AttributedString getAttributedString() {
