@@ -18,6 +18,8 @@ public class StyledStringPanel extends JPanel {
 
     public static final int DEFAULT_ICON_PADDING = 7;
 
+    private static final Insets NULL_INSETS = new Insets(0, 0, 0, 0);
+
     private StyledString styledString;
 
     private Optional<Icon> icon = Optional.empty();
@@ -143,11 +145,15 @@ public class StyledStringPanel extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         return theLayout.map(l -> {
-            int width = (int) l.getWidth(getFontRenderContext());
+            Insets i = getInsets();
+            if(i == null) {
+                i = NULL_INSETS;
+            }
+            int width = (int) l.getWidth(getFontRenderContext()) + i.left + i.right;
             if(icon.isPresent()) {
                 width += icon.get().getIconWidth() + DEFAULT_ICON_PADDING;
             }
-            int height = (int) l.getHeight(getFontRenderContext());
+            int height = (int) l.getHeight(getFontRenderContext()) + i.top + i.bottom;
             return new Dimension(width, height);
         }).orElse(new Dimension(10, 10));
     }
