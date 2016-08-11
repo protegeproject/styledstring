@@ -35,7 +35,7 @@ public class StyledStringLinkRenderer {
     public void setStyledString(@Nonnull StyledString styledString) {
         this.styledString = checkNotNull(styledString);
         this.stringToRender = styledString;
-        this.layout = Optional.of(new StyledStringLayout(styledString));
+        this.layout = Optional.of(StyledStringLayout.create(styledString));
     }
 
     /**

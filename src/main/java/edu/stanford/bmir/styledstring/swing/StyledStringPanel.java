@@ -76,7 +76,7 @@ public class StyledStringPanel extends JPanel {
         if(theLayout.filter(l -> l.isLayoutFor(styledString)).isPresent()) {
             return;
         }
-        this.theLayout = Optional.of(new StyledStringLayout(styledString));
+        this.theLayout = Optional.of(StyledStringLayout.create(styledString));
         if (repaintRequest == RepaintRequest.REPAINT) {
             repaint();
         }
