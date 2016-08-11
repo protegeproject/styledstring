@@ -49,7 +49,7 @@ public class StyledStringPanel extends JPanel {
         theLayout.ifPresent(l -> {
             FontRenderContext frc = getFontRenderContext();
             Point point = getPointRelativeToTextBounds(ptX, ptY);
-            styledStringLinkRenderer.setCursorPosition(point.x, point.y, l, frc);
+            styledStringLinkRenderer.setCursorPosition(point.x, point.y, frc);
             StyledString paintedString = styledStringLinkRenderer.getStyledStringToRender();
             rebuildPaintedString(paintedString, repaintRequest);
         });

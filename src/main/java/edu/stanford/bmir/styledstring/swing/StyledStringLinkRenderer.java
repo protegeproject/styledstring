@@ -2,8 +2,8 @@ package edu.stanford.bmir.styledstring.swing;
 
 import edu.stanford.bmir.styledstring.Style;
 import edu.stanford.bmir.styledstring.StyledString;
-import edu.stanford.bmir.styledstring.StyledStringLink;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.util.Optional;
@@ -19,36 +19,53 @@ public class StyledStringLinkRenderer {
 
     private final Style linkStyle = Style.builder().withForeground(Color.BLUE).withUnderline().build();
 
-    private StyledString styledString;
+    private StyledString styledString = StyledString.emptyString();
 
-    private StyledString stringToRender;
+    private StyledString stringToRender = StyledString.emptyString();
+
+    private Optional<StyledStringLayout> layout = Optional.empty();
 
     public StyledStringLinkRenderer() {
-        this.styledString = StyledString.emptyString();
-        this.stringToRender = styledString;
     }
 
-    public void setStyledString(StyledString styledString) {
+    /**
+     * Sets the nominal string that should be rendered.
+     * @param styledString The string to be rendered.
+     */
+    public void setStyledString(@Nonnull StyledString styledString) {
         this.styledString = checkNotNull(styledString);
+        this.stringToRender = styledString;
+        this.layout = Optional.of(new StyledStringLayout(styledString));
     }
 
+    /**
+     * Gets the string to render.
+     * @return  The string to render.  This may or may not be the value set by the setter method.  The result depends
+     * on calls to setCursorPosition.
+     */
+    @Nonnull
     public StyledString getStyledStringToRender() {
         return stringToRender;
     }
 
-    public void setCursorPosition(int ptX, int ptY, StyledStringLayout layout, FontRenderContext frc) {
-        checkNotNull(layout);
+    /**
+     * Sets the cursor position relative to the bounding box for the styled string held by this manager.  This method
+     * should be called after the call to setStyledString.
+     * @param ptX The x co-ordinate of the cursor position.
+     * @param ptY The y co-ordinate of the cursor position.
+     * @param frc The font render context that is used to compute character widths for hit testing.
+     */
+    public void setCursorPosition(int ptX, int ptY, @Nonnull FontRenderContext frc) {
         checkNotNull(frc);
-        Optional<StyledStringLink> linkAtPt = layout.getLinkAt(ptX, ptY, frc);
-        if(linkAtPt.isPresent()) {
-            StyledStringLink link = linkAtPt.get();
-            StyledString.Builder builder = layout.getStyledString().toBuilder();
-            builder.applyStyle(link.getStartIndex(), link.getEndIndex(), linkStyle);
-            stringToRender = builder.build();
-        }
-        else {
-            stringToRender = styledString;
-        }
+        // Set the default value - i.e. the nominal string
+        stringToRender = styledString;
+        layout.flatMap(l -> l.getLinkAt(ptX, ptY, frc))
+                .ifPresent(link -> {
+                    // Apply link style
+                    StyledString.Builder builder = styledString.toBuilder();
+                    builder.applyStyle(link.getStartIndex(), link.getEndIndex(), linkStyle);
+                    stringToRender = builder.build();
+                });
     }
 
     public void clearCursorPosition() {
