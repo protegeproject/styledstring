@@ -139,4 +139,16 @@ public class StyledStringPanel extends JPanel {
         int relY = ptY - insetsTop;
         return new Point(relX, relY);
     }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return theLayout.map(l -> {
+            int width = (int) l.getWidth(getFontRenderContext());
+            if(icon.isPresent()) {
+                width += icon.get().getIconWidth() + DEFAULT_ICON_PADDING;
+            }
+            int height = (int) l.getHeight(getFontRenderContext());
+            return new Dimension(width, height);
+        }).orElse(new Dimension(10, 10));
+    }
 }
