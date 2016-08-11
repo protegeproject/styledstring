@@ -15,9 +15,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Stanford University
  * Bio-Medical Informatics Research Group
  * Date: 5th December 2014
- * <p>
+ *
  * A simple first in first out cache for TextLayout objects of AttributedStrings.
- * </p>
+ *
  */
 public class TextLayoutCache {
 

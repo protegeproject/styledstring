@@ -7,18 +7,27 @@ import edu.stanford.bmir.styledstring.attributes.StyleAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import javax.swing.text.*;
 
 /**
  * Matthew Horridge
  * Stanford Center for Biomedical Informatics Research
  * 05/12/14
+ *
+ * Renders a StyledString into a {@link StyledDocument}.
  */
 public class StyledDocumentRenderer {
 
     private static final Logger logger = LoggerFactory.getLogger(StyledDocumentRenderer.class);
 
-    public void renderIntoStyledDocument(StyledString styledString, StyledDocument styledDocument) {
+    /**
+     * Render the specified StyledString into the specified StyledDocument.  Note that any existing document content
+     * will be erased by calling this method.
+     * @param styledString The StyledString
+     * @param styledDocument The StyledDocument.
+     */
+    public void renderIntoStyledDocument(@Nonnull StyledString styledString, @Nonnull StyledDocument styledDocument) {
         try {
             styledDocument.remove(0, styledDocument.getLength());
             styledDocument.insertString(0, styledString.getString(), null);
