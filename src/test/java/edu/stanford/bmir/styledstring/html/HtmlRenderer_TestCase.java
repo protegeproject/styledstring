@@ -1,5 +1,6 @@
 package edu.stanford.bmir.styledstring.html;
 
+import com.google.common.collect.ImmutableList;
 import edu.stanford.bmir.styledstring.StyledString;
 import edu.stanford.bmir.styledstring.StyledStringMarkup;
 import org.junit.Before;
@@ -35,7 +36,7 @@ public class HtmlRenderer_TestCase {
     }
 
     private String getRendering(String input) {
-        return htmlRenderer.toHTML(new StyledString(input, Collections.<StyledStringMarkup>emptyList()));
+        return htmlRenderer.toHTML(new StyledString(input, ImmutableList.of(), ImmutableList.of()));
     }
 
     @Test
