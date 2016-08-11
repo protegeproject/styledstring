@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextHitInfo;
 import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -66,6 +67,13 @@ public class TextLayoutCache {
 
     public int getCharIndexAtPoint(int pointX, int pointY, FontRenderContext fontRenderContext) {
         TextLayout layout = getTextLayout(fontRenderContext);
+        Rectangle2D bounds = layout.getBounds();
+        if(bounds.getMaxX() < pointX) {
+            return -1;
+        }
+        if(pointX < 0) {
+            return -1;
+        }
         TextHitInfo info = layout.hitTestChar(pointX, pointY);
         return info.getCharIndex();
     }
