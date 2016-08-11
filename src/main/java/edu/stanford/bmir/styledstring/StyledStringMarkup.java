@@ -36,7 +36,7 @@ public class StyledStringMarkup implements Comparable<StyledStringMarkup> {
 
     @Override
     public int hashCode() {
-        return StyledStringMarkup.class.getSimpleName().hashCode() + start + end + style.hashCode();
+        return start + end + style.hashCode();
     }
 
     @Override
@@ -48,7 +48,9 @@ public class StyledStringMarkup implements Comparable<StyledStringMarkup> {
             return false;
         }
         StyledStringMarkup other = (StyledStringMarkup) obj;
-        return this.start == other.start && this.end == other.end && this.style.equals(other.style);
+        return this.start == other.start
+                && this.end == other.end
+                && this.style.equals(other.style);
     }
 
     public int compareTo(StyledStringMarkup o) {
