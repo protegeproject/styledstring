@@ -3,17 +3,25 @@ package edu.stanford.bmir.styledstring.swing;
 import edu.stanford.bmir.styledstring.StyledString;
 import edu.stanford.bmir.styledstring.StyledStringLink;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.util.Optional;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Matthew Horridge
  * Stanford University
  * Bio-Medical Informatics Research Group
  * Date: 5th December 2014
+ *
+ * Represents a component that can draw StyledString objects.  The component allows an icon to be specified (rather
+ * like a JLabel does).  Multiple lines are possible and links are also possible.  Note that links are rendered
+ * passively on "hover" by the client calling the {@link #setCursorPosition(int, int, RepaintRequest)} method or the
+ * {@link #clearCursorPosition(RepaintRequest)} method.
  */
 public class StyledStringPanel extends JPanel {
 
@@ -36,20 +44,43 @@ public class StyledStringPanel extends JPanel {
         setStyledString(StyledString.emptyString());
     }
 
-    public void setStyledString(StyledString styledString) {
+
+    /**
+     * Sets the StyledString to be drawn by this component.
+     * @param styledString The StyledString.
+     */
+    public void setStyledString(@Nonnull StyledString styledString) {
+        checkNotNull(styledString);
         this.styledString = styledString;
         styledStringLinkRenderer.setStyledString(styledString);
         rebuildPaintedString(styledString, RepaintRequest.DO_NOT_REPAINT);
     }
 
-    public void setIcon(Icon icon) {
+    /**
+     * Sets the Icon to be drawn by this component.
+     * @param icon The icon.
+     */
+    public void setIcon(@Nonnull Icon icon) {
         this.icon = Optional.of(icon);
     }
 
+    /**
+     * Removes the icon drawn by this component.
+     */
     public void clearIcon() {
         this.icon = Optional.empty();
     }
 
+    /**
+     * Sets the cursor position in order to decide whether links should be rendered.
+     * @param ptX The X co-ordinate of the cursor position relative to the top left of this component.
+     * @param ptY The Y co-ordinate of the cursor position relative to the top left of this component.
+     * @param repaintRequest Specifies whether the componet should be repainted after setting the cursor position.  If
+     *                       this component has been added to another component in a UI then this should usually be set
+     *                       to {@link RepaintRequest#REPAINT}.  If, however, this component is used as a cell renderer
+     *                       in a tree or list etc. then the repaintRequest value should usually be set to
+     *                       {@link RepaintRequest#DO_NOT_REPAINT}.
+     */
     public void setCursorPosition(final int ptX, final int ptY, RepaintRequest repaintRequest) {
         theLayout.ifPresent(l -> {
             FontRenderContext frc = getFontRenderContext();
@@ -60,6 +91,33 @@ public class StyledStringPanel extends JPanel {
         });
     }
 
+    /**
+     * Clears a previously set cursor position.
+     * @param repaintRequest Specifies whether or not the component should be repainted after clearing the cursor.
+     *                       Please see {@link #setCursorPosition(int, int, RepaintRequest)} for an explanation of
+     *                       this parameter.
+     */
+    public void clearCursorPosition(RepaintRequest repaintRequest) {
+        styledStringLinkRenderer.clearCursorPosition();
+        rebuildPaintedString(styledString, repaintRequest);
+    }
+
+
+    /**
+     * Gets the link at the specified point.
+     * @param ptX The X co-ordinate of the cursor position relative to the top left of this component.
+     * @param ptY The Y co-ordinate of the cursor position relative to the top left of this component.
+     * @return An optional {@link StyledStringLink} that is located at the specified point.  An empty value indicates
+     * that there is no link at the specified point.
+     */
+    public Optional<StyledStringLink> getLinkAt(int ptX, int ptY) {
+        return theLayout.flatMap(l -> {
+            Point p = getPointRelativeToTextBounds(ptX, ptY);
+            return l.getLinkAt(p.x, p.y, getFontRenderContext());
+        });
+    }
+
+
     private FontRenderContext getFontRenderContext() {
         Graphics2D g2 = (Graphics2D) getGraphics();
         if(g2 == null) {
@@ -68,18 +126,6 @@ public class StyledStringPanel extends JPanel {
         else {
             return g2.getFontRenderContext();
         }
-    }
-
-    public Optional<StyledStringLink> getLinkAt(int ptX, int ptY) {
-        return theLayout.flatMap(l -> {
-            Point p = getPointRelativeToTextBounds(ptX, ptY);
-            return l.getLinkAt(p.x, p.y, getFontRenderContext());
-        });
-    }
-
-    public void clearCursorPosition(RepaintRequest repaintRequest) {
-        styledStringLinkRenderer.clearCursorPosition();
-        rebuildPaintedString(styledString, repaintRequest);
     }
 
 
