@@ -6,6 +6,7 @@ import edu.stanford.bmir.styledstring.StyledStringLink;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.util.Optional;
 
 /**
@@ -19,6 +20,8 @@ public class StyledStringPanel extends JPanel {
     public static final int DEFAULT_ICON_PADDING = 7;
 
     private static final Insets NULL_INSETS = new Insets(0, 0, 0, 0);
+
+    public static final FontRenderContext NULL_FONT_RENDER_CONTEXT = new FontRenderContext(new AffineTransform(), false, false);
 
     private StyledString styledString;
 
@@ -58,7 +61,13 @@ public class StyledStringPanel extends JPanel {
     }
 
     private FontRenderContext getFontRenderContext() {
-        return ((Graphics2D) getGraphics()).getFontRenderContext();
+        Graphics2D g2 = (Graphics2D) getGraphics();
+        if(g2 == null) {
+            return NULL_FONT_RENDER_CONTEXT;
+        }
+        else {
+            return g2.getFontRenderContext();
+        }
     }
 
     public Optional<StyledStringLink> getLinkAt(int ptX, int ptY) {
