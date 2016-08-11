@@ -38,6 +38,8 @@ public final class StyledString implements CharSequence, Comparable<StyledString
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
     /**
      * Constructs a StyledString with the specified plain string marked up with the specified markup.
      * @param text The plain string.  Not {@code null}.
@@ -70,7 +72,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      * @param text The plain string.  Not {@code null}.
      * @throws NullPointerException if text is {@code null}.
      */
-    private StyledString(String text) {
+    public StyledString(String text) {
         this(text, ImmutableList.of(), ImmutableList.of());
     }
 
