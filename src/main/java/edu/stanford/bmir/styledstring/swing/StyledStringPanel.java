@@ -6,8 +6,6 @@ import edu.stanford.bmir.styledstring.StyledStringLink;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.font.FontRenderContext;
 import java.util.Optional;
 
@@ -19,11 +17,11 @@ import java.util.Optional;
  */
 public class StyledStringPanel extends JPanel {
 
-    public static final int DEFAULT_ICON_PADDING = 2;
+    public static final int DEFAULT_ICON_PADDING = 7;
 
     private StyledString styledString;
 
-    private Icon icon = null;
+    private Optional<Icon> icon = Optional.empty();
 
     private Optional<StyledStringLayout> theLayout = Optional.empty();
 
@@ -34,29 +32,14 @@ public class StyledStringPanel extends JPanel {
     }
 
     public void setIcon(Icon icon) {
-        this.icon = icon;
+        this.icon = Optional.of(icon);
     }
 
-    public StyledStringPanel(StyledString styledString) {
-        setOpaque(true);
-        installStyledString(styledString);
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                theLayout.ifPresent(layout -> {
-                    int x = e.getX();
-                    int y = e.getY();
-                    updateCursorPosition(x, y, RepaintRequest.REPAINT);
-                });
-            }
-        });
+    public void clearIcon() {
+        this.icon = Optional.empty();
     }
 
-    private void clearCursorPosition(RepaintRequest repaintRequest) {
-        rebuildPaintedString(styledString, repaintRequest);
-    }
-
-    private void updateCursorPosition(final int ptX, final int ptY, RepaintRequest repaintRequest) {
+    public void setCursorPosition(final int ptX, final int ptY, RepaintRequest repaintRequest) {
         // Translate
         Insets insets = getInsets();
         final int insetsLeft;
@@ -70,8 +53,8 @@ public class StyledStringPanel extends JPanel {
             insetsTop = 0;
         }
         final int relX;
-        if (icon != null) {
-            relX = ptX - icon.getIconWidth() - DEFAULT_ICON_PADDING - insetsLeft;
+        if (icon.isPresent()) {
+            relX = ptX - icon.get().getIconWidth() - DEFAULT_ICON_PADDING - insetsLeft;
         }
         else {
             relX = ptX - insetsLeft;
@@ -91,8 +74,11 @@ public class StyledStringPanel extends JPanel {
         }
     }
 
+    public void clearCursorPosition(RepaintRequest repaintRequest) {
+        rebuildPaintedString(styledString, repaintRequest);
+    }
+
     public void setStyledString(StyledString styledString) {
-        setOpaque(true);
         installStyledString(styledString);
     }
 
@@ -117,23 +103,28 @@ public class StyledStringPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
         try {
+            Shape clip = g2.getClip();
+            g2.setColor(getBackground());
+            g2.fill(clip);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             Insets insets = getInsets();
             if (insets != null) {
                 g2.translate(insets.left, insets.top);
             }
-            g2.setFont(getFont());
-            Shape clip = g2.getClip();
-            g2.setColor(getBackground());
-            g2.fill(clip);
 
-            if (icon != null) {
-                icon.paintIcon(this, g2, 0, 0);
-                g2.translate(icon.getIconWidth() + DEFAULT_ICON_PADDING, 0);
-            }
-            g2.setColor(getForeground());
-            theLayout.ifPresent(l -> l.draw(g2, 0, 0));
+            theLayout.ifPresent(l -> {
+                g2.setFont(getFont());
+                icon.ifPresent(i -> {
+                    int firstLineHeight = l.getLineHeight(0, g2.getFontRenderContext()).orElse(0);
+                    int iconY = (firstLineHeight - i.getIconHeight()) / 2;
+                    i.paintIcon(this, g2, 0, iconY);
+                    g2.translate(i.getIconWidth() + DEFAULT_ICON_PADDING, 0);
+                });
+
+                g2.setColor(getForeground());
+                l.draw(g2, 0, 0);
+            });
 
         } finally {
             g2.dispose();
