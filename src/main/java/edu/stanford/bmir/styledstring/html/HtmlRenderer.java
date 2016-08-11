@@ -35,7 +35,7 @@ public class HtmlRenderer {
     private void renderIntoHTML(Writer writer, StyledString styledString) {
         StringBuilder pw = new StringBuilder();
 
-        List<StyledStringMarkup> sortedMarkups = new ArrayList<StyledStringMarkup>(styledString.getMarkup());
+        List<StyledStringMarkup> sortedMarkups = new ArrayList<>(styledString.getMarkup());
         Collections.sort(sortedMarkups);
         Set<Style> currentStyles = Sets.newHashSet();
         List<Integer> runLimits = Lists.newArrayList();
