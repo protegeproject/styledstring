@@ -32,6 +32,13 @@ public class StyledStringLayout {
         this.textLayoutLines = createLines(styledString);
     }
 
+    public StyledString getStyledString() {
+        return styledString;
+    }
+
+    public boolean isLayoutFor(StyledString styledString) {
+        return this.styledString.equals(styledString);
+    }
 
     private static ImmutableList<TextLayoutCache> createLines(StyledString styledString) {
         if (styledString.isEmpty()) {
