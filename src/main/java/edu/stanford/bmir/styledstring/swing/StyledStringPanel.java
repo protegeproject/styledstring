@@ -104,9 +104,18 @@ public class StyledStringPanel extends JPanel {
                 g2.setFont(getFont());
                 icon.ifPresent(i -> {
                     int firstLineHeight = l.getLineHeight(0, g2.getFontRenderContext()).orElse(0);
-                    int iconY = (firstLineHeight - i.getIconHeight()) / 2;
+                    int iconY;
+                    int yOffset;
+                    if(i.getIconHeight() > firstLineHeight) {
+                        iconY = 0;
+                        yOffset = (i.getIconHeight() - firstLineHeight) / 2;
+                    }
+                    else {
+                        iconY = (firstLineHeight - i.getIconHeight()) / 2;
+                        yOffset = 0;
+                    }
                     i.paintIcon(this, g2, 0, iconY);
-                    g2.translate(i.getIconWidth() + DEFAULT_ICON_PADDING, 0);
+                    g2.translate(i.getIconWidth() + DEFAULT_ICON_PADDING, yOffset);
                 });
 
                 g2.setColor(getForeground());
@@ -119,7 +128,6 @@ public class StyledStringPanel extends JPanel {
     }
 
     private Point getPointRelativeToTextBounds(int ptX, int ptY) {
-        // Translate
         Insets insets = getInsets();
         final int insetsLeft;
         final int insetsTop;
@@ -131,14 +139,36 @@ public class StyledStringPanel extends JPanel {
             insetsLeft = 0;
             insetsTop = 0;
         }
+
         int relX;
+        int relY;
+
         if (icon.isPresent()) {
-            relX = ptX - icon.get().getIconWidth() - DEFAULT_ICON_PADDING - insetsLeft;
+            Icon i = this.icon.get();
+            // Adjust text horizontal offset
+            int iconXOffset = i.getIconWidth() + DEFAULT_ICON_PADDING;
+            relX = ptX - iconXOffset - insetsLeft;
+
+            // Adjust text vertical offset
+            // The text vertical offset depends upon whether the icon height is larger than the text height.
+            int textYOffset = 0;
+            if(theLayout.isPresent()) {
+                StyledStringLayout l = theLayout.get();
+                float textHeight = l.getHeight(getFontRenderContext());
+                if(i.getIconHeight() > textHeight) {
+                    textYOffset = (int) ((i.getIconHeight() - textHeight) / 2);
+                }
+            }
+            else {
+                textYOffset = 0;
+            }
+            relY = ptY - insetsTop - textYOffset;
         }
         else {
             relX = ptX - insetsLeft;
+            relY = ptY - insetsTop;
         }
-        int relY = ptY - insetsTop;
+
         return new Point(relX, relY);
     }
 
@@ -153,7 +183,13 @@ public class StyledStringPanel extends JPanel {
             if(icon.isPresent()) {
                 width += icon.get().getIconWidth() + DEFAULT_ICON_PADDING;
             }
-            int height = (int) l.getHeight(getFontRenderContext()) + i.top + i.bottom;
+            int textHeight = (int) l.getHeight(getFontRenderContext());
+            int iconHeight = 0;
+            if(icon.isPresent()) {
+                iconHeight = icon.get().getIconHeight();
+            }
+            int height = Math.max(textHeight, iconHeight) + i.top + i.bottom;
+
             return new Dimension(width, height);
         }).orElse(new Dimension(10, 10));
     }
