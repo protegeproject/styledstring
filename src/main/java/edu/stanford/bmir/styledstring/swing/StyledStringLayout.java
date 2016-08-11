@@ -10,6 +10,7 @@ import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -120,4 +121,10 @@ public class StyledStringLayout {
     }
 
 
+    public OptionalInt getLineHeight(int i, FontRenderContext fontRenderContext) {
+        if(textLayoutLines.isEmpty()) {
+            return OptionalInt.empty();
+        }
+        return OptionalInt.of((int) textLayoutLines.get(i).getHeight(fontRenderContext));
+    }
 }
