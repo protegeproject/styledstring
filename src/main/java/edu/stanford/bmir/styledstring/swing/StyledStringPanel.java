@@ -42,6 +42,7 @@ public class StyledStringPanel extends JPanel {
     public StyledStringPanel() {
         setOpaque(true);
         setStyledString(StyledString.emptyString());
+        setFont(new Font("menlo", Font.PLAIN, 12));
     }
 
 
@@ -158,7 +159,8 @@ public class StyledStringPanel extends JPanel {
             theLayout.ifPresent(l -> {
                 g2.setFont(getFont());
                 icon.ifPresent(i -> {
-                    int firstLineHeight = l.getLineHeight(0, g2.getFontRenderContext()).orElse(0);
+//                    int firstLineHeight = l.getLineHeight(0, g2.getFontRenderContext()).orElse(0);
+                    int firstLineHeight = (int) l.getHeight(g2.getFontRenderContext());
                     int iconY;
                     int yOffset;
                     if(i.getIconHeight() > firstLineHeight) {
@@ -239,12 +241,8 @@ public class StyledStringPanel extends JPanel {
                 width += icon.get().getIconWidth() + DEFAULT_ICON_PADDING;
             }
             int textHeight = (int) l.getHeight(getFontRenderContext());
-            int iconHeight = 0;
-            if(icon.isPresent()) {
-                iconHeight = icon.get().getIconHeight();
-            }
+            int iconHeight = icon.map(Icon::getIconHeight).orElse(0);
             int height = Math.max(textHeight, iconHeight) + i.top + i.bottom;
-
             return new Dimension(width, height);
         }).orElse(new Dimension(10, 10));
     }

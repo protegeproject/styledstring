@@ -45,6 +45,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
      * @param text The plain string.  Not {@code null}.
      * @param markup The markup.  Not {@code null}.  May be empty.
      * @throws NullPointerException if {@code text} is {@code null}, if {@code markup} is {@code null}.
+     * @throws NullPointerException if {@code text} is {@code null}, if {@code markup} is {@code null}.
      */
     public StyledString(String text, List<StyledStringMarkup> markup, List<StyledStringLink> links) {
         this.plainString = checkNotNull(text);

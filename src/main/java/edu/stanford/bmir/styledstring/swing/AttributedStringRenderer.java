@@ -5,6 +5,8 @@ import edu.stanford.bmir.styledstring.StyledString;
 import edu.stanford.bmir.styledstring.StyledStringMarkup;
 import edu.stanford.bmir.styledstring.attributes.StyleAttribute;
 
+import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 

@@ -6,10 +6,10 @@
 
     <groupId>edu.stanford.protege</groupId>
     <artifactId>styledstring</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>${project.artifactId}</name>
-    
+
     <description>A library for creating marked up strings that can produce output in various formats.</description>
 
     <properties>

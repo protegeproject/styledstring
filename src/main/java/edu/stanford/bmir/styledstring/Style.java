@@ -135,6 +135,11 @@ public class Style {
             return this;
         }
 
+        public Builder withFontFamily(String fontFamily) {
+            setAttribute(new FontFamilyAttribute(fontFamily));
+            return this;
+        }
+
         public Style build() {
             return new Style(attributes.values());
         }
