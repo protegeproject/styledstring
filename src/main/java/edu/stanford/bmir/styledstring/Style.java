@@ -140,6 +140,11 @@ public class Style {
             return this;
         }
 
+        public Builder withItalic() {
+            setAttribute(new ItalicAttribute(Italic.ITALIC));
+            return this;
+        }
+
         public Style build() {
             return new Style(attributes.values());
         }
