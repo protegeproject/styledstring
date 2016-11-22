@@ -14,11 +14,15 @@ public enum CssConstants {
 
     FONT_SIZE("font-size"),
 
+    FONT_STYLE("font-style"),
+
     BACKGROUND("background"),
 
     COLOR("color"),
 
     BOLD("bold"),
+
+    ITALIC("italic"),
 
     NORMAL("normal"),
 
