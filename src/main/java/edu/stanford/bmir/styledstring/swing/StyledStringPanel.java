@@ -52,6 +52,7 @@ public class StyledStringPanel extends JPanel {
      */
     public void setStyledString(@Nonnull StyledString styledString) {
         checkNotNull(styledString);
+        cachedPreferredSize = null;
         this.styledString = styledString;
         styledStringLinkRenderer.setStyledString(styledString);
         rebuildPaintedString(styledString, RepaintRequest.DO_NOT_REPAINT);
@@ -63,6 +64,7 @@ public class StyledStringPanel extends JPanel {
      */
     public void setIcon(@Nonnull Icon icon) {
         this.icon = Optional.of(icon);
+        cachedPreferredSize = null;
     }
 
     /**
@@ -70,6 +72,7 @@ public class StyledStringPanel extends JPanel {
      */
     public void clearIcon() {
         this.icon = Optional.empty();
+        cachedPreferredSize = null;
     }
 
     /**
@@ -229,8 +232,13 @@ public class StyledStringPanel extends JPanel {
         return new Point(relX, relY);
     }
 
+    private Dimension cachedPreferredSize = null;
+
     @Override
     public Dimension getPreferredSize() {
+        if(cachedPreferredSize != null) {
+            return cachedPreferredSize;
+        }
         return theLayout.map(l -> {
             Insets i = getInsets();
             if(i == null) {
@@ -243,7 +251,7 @@ public class StyledStringPanel extends JPanel {
             int textHeight = (int) l.getHeight(getFontRenderContext());
             int iconHeight = icon.map(Icon::getIconHeight).orElse(0);
             int height = Math.max(textHeight, iconHeight) + i.top + i.bottom;
-            return new Dimension(width, height);
+            return cachedPreferredSize = new Dimension(width, height);
         }).orElse(new Dimension(10, 10));
     }
 }
