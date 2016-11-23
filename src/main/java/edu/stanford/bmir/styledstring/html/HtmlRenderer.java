@@ -69,7 +69,7 @@ public class HtmlRenderer {
                 pw.append("\">");
             }
             String substring = styledString.substring(lastLimit, runLimit).getString();
-            pw.append(substring);
+            pw.append(substring.replace(" ", "&nbsp;"));
             if (!styleAttributes.isEmpty()) {
                 pw.append("</span>");
             }
