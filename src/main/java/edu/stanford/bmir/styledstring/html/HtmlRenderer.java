@@ -46,7 +46,7 @@ public class HtmlRenderer {
                     iStyles.add(markup.getStyle());
                 }
             }
-            if (!iStyles.equals(currentStyles) || styledString.charAt(i) == '\n') {
+            if (!iStyles.equals(currentStyles)) {
                 runLimits.add(i);
                 currentStyles.clear();
                 currentStyles.addAll(iStyles);
@@ -75,20 +75,11 @@ public class HtmlRenderer {
             }
             lastLimit = runLimit;
         }
-
-
-        String[] lines = pw.toString().split("\\n");
+        String withBreaks = pw.toString()
+                              .replace("\n", "<br>")
+                              .replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
         PrintWriter p = new PrintWriter(writer);
-        p.append("<div\">");
-        for (String line : lines) {
-            if (!line.equals("\n")) {
-                p.append("<div class=\"line\">\n");
-                p.append(line.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;"));
-                p.append("\n");
-                p.append("</div>\n");
-            }
-        }
-        p.append("</div>");
+        p.write(withBreaks);
         p.flush();
     }
 

@@ -283,7 +283,7 @@ public final class StyledString implements CharSequence, Comparable<StyledString
 
 
     public List<Style> getStylesAt(int index) {
-        List<Style> styles = new ArrayList<Style>();
+        List<Style> styles = new ArrayList<>();
         for (StyledStringMarkup markup : plainStringMarkup) {
             if (markup.getStart() <= index && index < markup.getEnd()) {
                 styles.add(markup.getStyle());
